@@ -4,7 +4,6 @@ import agence.models.Client;
 import agence.models.Vehicule;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 public class Location {
@@ -15,7 +14,8 @@ public class Location {
     private double kilometrageActuel;
     private Vehicule vehicule;
     private Client client;
-    private boolean estTermine;
+    private boolean estEnCours;
+    private double montantGarantie;
 
     public Location(LocalDateTime dateFinPrevueLocation, Vehicule vehicule, Client client) {
         this.idLocation = UUID.randomUUID().toString();
@@ -25,8 +25,11 @@ public class Location {
         this.kilometrageActuel = this.vehicule.getKilometrage();
         this.vehicule = vehicule;
         this.client = client;
-        this.estTermine = false;
+        this.estEnCours = false;
+        this.montantGarantie = 200;
     }
+
+    public Location() {}
 
     /**
      * Methode qui permet de calculer le nombre de kilometrage permit pour la location
@@ -83,16 +86,16 @@ public class Location {
         this.client = client;
     }
 
-    public boolean isEstTermine() {
-        return estTermine;
+    public boolean isEstEnCours() {
+        return estEnCours;
     }
 
-    public void setEstTermine(boolean estTermine) {
-        this.estTermine = estTermine;
+    public void setEstEnCours(boolean estEnCours) {
+        this.estEnCours = estEnCours;
     }
 
     private void mettreFinLocation(){
-        this.estTermine = true;
+        this.estEnCours = true;
     }
 
     @Override
@@ -117,5 +120,13 @@ public class Location {
 
     public double getKilometrageActuel() {
         return kilometrageActuel;
+    }
+
+    public double getMontantGarantie() {
+        return montantGarantie;
+    }
+
+    public void setMontantGarantie(double montantGarantie) {
+        this.montantGarantie = montantGarantie;
     }
 }
