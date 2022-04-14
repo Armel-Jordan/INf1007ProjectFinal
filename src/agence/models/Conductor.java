@@ -4,9 +4,9 @@ public class Conductor {
 
     private String nom;
     private String preNom;
-    private int numPermisConduire;
+    private String numPermisConduire;
 
-    public Conductor(String nom, String preNom, int numPermisConduire) {
+    public Conductor(String nom, String preNom, String numPermisConduire) {
         this.nom = nom;
         this.preNom = preNom;
         this.numPermisConduire = numPermisConduire;
@@ -28,11 +28,11 @@ public class Conductor {
         this.preNom = preNom;
     }
 
-    public int getNumPermisConduire() {
+    public String getNumPermisConduire() {
         return numPermisConduire;
     }
 
-    public void setNumPermisConduire(int numPermisConduire) {
+    public void setNumPermisConduire(String numPermisConduire) {
         this.numPermisConduire = numPermisConduire;
     }
 

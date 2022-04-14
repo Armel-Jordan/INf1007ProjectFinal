@@ -3,40 +3,59 @@ package agence.request;
 import agence.models.Client;
 import agence.models.Vehicule;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 public class Location {
-    private Date dateDebutLocation;
-    private Date dateFinPrevueLocation;
+    private String idLocation;
+    private LocalDateTime dateDebutLocation;
+    private LocalDateTime dateFinPrevueLocation;
     private double kilometrageOffert;
+    private double kilometrageActuel;
     private Vehicule vehicule;
-    private String duree;
     private Client client;
     private boolean estTermine;
 
-    public Location(Date dateDebutLocation, Date dateFinPrevueLocation, double kilometrageOffert, Vehicule vehicule, String duree, Client client) {
-        this.dateDebutLocation = dateDebutLocation;
+    public Location(LocalDateTime dateFinPrevueLocation, Vehicule vehicule, Client client) {
+        this.idLocation = UUID.randomUUID().toString();
+        this.dateDebutLocation = LocalDateTime.now();
         this.dateFinPrevueLocation = dateFinPrevueLocation;
-        this.kilometrageOffert = kilometrageOffert;
+        this.kilometrageOffert = calculKilometrageOffert();
+        this.kilometrageActuel = this.vehicule.getKilometrage();
         this.vehicule = vehicule;
-        this.duree = duree;
         this.client = client;
         this.estTermine = false;
     }
 
-    public Date getDateDebutLocation() {
+    /**
+     * Methode qui permet de calculer le nombre de kilometrage permit pour la location
+     * @return double
+     * */
+    public double calculKilometrageOffert() {
+        LocalDateTime dateDebutLocation = this.dateDebutLocation;
+        // 4 jours de location
+        LocalDateTime dateFinPrevueLocation = this.dateFinPrevueLocation;
+        // difference de jour entre la date de debut et la date de fin
+        long nbJour = dateFinPrevueLocation.toLocalDate().toEpochDay() - dateDebutLocation.toLocalDate().toEpochDay();
+
+        // nombre de kilometrage offert
+        return (double) (nbJour * 100);
+    }
+
+    public LocalDateTime getDateDebutLocation() {
         return dateDebutLocation;
     }
 
-    public void setDateDebutLocation(Date dateDebutLocation) {
+    public void setDateDebutLocation(LocalDateTime dateDebutLocation) {
         this.dateDebutLocation = dateDebutLocation;
     }
 
-    public Date getDateFinPrevueLocation() {
+    public LocalDateTime getDateFinPrevueLocation() {
         return dateFinPrevueLocation;
     }
 
-    public void setDateFinPrevueLocation(Date dateFinPrevueLocation) {
+    public void setDateFinPrevueLocation(LocalDateTime dateFinPrevueLocation) {
         this.dateFinPrevueLocation = dateFinPrevueLocation;
     }
 
@@ -54,14 +73,6 @@ public class Location {
 
     public void setVehicule(Vehicule vehicule) {
         this.vehicule = vehicule;
-    }
-
-    public String getDuree() {
-        return duree;
-    }
-
-    public void setDuree(String duree) {
-        this.duree = duree;
     }
 
     public Client getClient() {
@@ -91,10 +102,20 @@ public class Location {
                 ", dateFinPrevueLocation=" + dateFinPrevueLocation +
                 ", kilometrageOffert=" + kilometrageOffert +
                 ", vehicule=" + vehicule +
-                ", duree='" + duree + '\'' +
                 ", client=" + client +
                 '}';
     }
 
 
+    public String getIdLocation() {
+        return idLocation;
+    }
+
+    public void setIdLocation(String idLocation) {
+        this.idLocation = idLocation;
+    }
+
+    public double getKilometrageActuel() {
+        return kilometrageActuel;
+    }
 }

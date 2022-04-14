@@ -1,31 +1,23 @@
 package agence.models;
 
 public class Vehicule {
-
     private String immatriculation;
     private double kilometrage;
     private String couleur;
-    private String type;
-    private ModeleV modeleV;
+    private TypeVehicule type;
+    private ModelVehicule modelVehicule;
     private boolean estEndommage;
     private boolean estDisponible;
-    private String numeroLocation;
-    //private List<Type> typeVehicule;
-
-
 
     //constructeur
-
-    public Vehicule(String immatriculation, double kilometrage, String couleur, String type,boolean estEndommage, boolean estDisponible) {
+    public Vehicule(String immatriculation, String couleur, TypeVehicule type) {
         this.immatriculation = immatriculation;
-        this.kilometrage = kilometrage;
+        this.kilometrage = 0;
         this.couleur = couleur;
         this.type = type;
-        this.estEndommage = estEndommage;
-        this.estDisponible = estDisponible;
+        this.estEndommage = false;
+        this.estDisponible = true;
     }
-
-
 
     public String getImmatriculation() {
         return immatriculation;
@@ -51,19 +43,19 @@ public class Vehicule {
         this.couleur = couleur;
     }
 
-    public ModeleV getListModele() {
-        return modeleV;
+    public ModelVehicule getListModele() {
+        return modelVehicule;
     }
 
-    public void setListModele(ModeleV modeleV) {
-        this.modeleV = modeleV;
+    public void setListModele(ModelVehicule modelVehicule) {
+        this.modelVehicule = modelVehicule;
     }
 
-    public String getType() {
+    public TypeVehicule getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeVehicule type) {
         this.type = type;
     }
 
@@ -75,12 +67,12 @@ public class Vehicule {
         this.estDisponible = estDisponible;
     }
 
-    public ModeleV getModele() {
-        return modeleV;
+    public ModelVehicule getModele() {
+        return modelVehicule;
     }
 
-    public void setModele(ModeleV modele) {
-        this.modeleV = modele;
+    public void setModele(ModelVehicule modele) {
+        this.modelVehicule = modele;
     }
 
     public boolean isEstEndommage() {
@@ -91,14 +83,6 @@ public class Vehicule {
         this.estEndommage = estEndommage;
     }
 
-    public String getNumeroLocation() {
-        return numeroLocation;
-    }
-
-    public void setNumeroLocation(String numeroLocation) {
-        this.numeroLocation = numeroLocation;
-    }
-
     @Override
     public String toString() {
         return "Vehicule{" +
@@ -106,10 +90,9 @@ public class Vehicule {
                 ", kilometrage=" + kilometrage +
                 ", couleur='" + couleur + '\'' +
                 ", type='" + type + '\'' +
-                ", modele=" + modeleV +
+                ", modele=" + modelVehicule +
                 ", estEndommage=" + estEndommage +
                 ", estDisponible=" + estDisponible +
-                ", numeroLocation='" + numeroLocation + '\'' +
                 '}';
     }
 }

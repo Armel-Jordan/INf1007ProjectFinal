@@ -1,58 +1,61 @@
-package models;
+package agence.models;
 
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
-public class Client extends Conductor {
-    private int idClient;
-    private String adresse;
-    private int numTelephone;
-    private int numCarteCredit;
-    private int numPermisConduire;
+public class Client {
+    private String idClient;
+    private Address adresse;
+    private String nom;
+    private String prenom;
+    private String numTelephone;
+    private String numCarteCredit;
+    private String numPermisConduire;
 
     //lorsqu'un client s'inscrit il doit indiquer les autres conducteurs potentiels
     HashSet<Conductor> conducteursAccompagnants;
 
-    public Client(String nom, String preNom, int numPermisConduire, int idClient, String adresse, int numTelephone, int numCarteCredit) {
-        super(nom, preNom, numPermisConduire);
-        this.idClient = idClient;
+    public Client(String nom, String prenom, String numPermisConduire, Address adresse, String numTelephone, String numCarteCredit) {
+        this.idClient = UUID.randomUUID().toString();
+        this.nom = nom;
+        this.prenom = prenom;
         this.adresse = adresse;
         this.numTelephone = numTelephone;
         this.numCarteCredit = numCarteCredit;
         this.numPermisConduire = numPermisConduire;
-
     }
 
-    public int getIdClient() {
+    public String getIdClient() {
         return idClient;
     }
 
-    public void setIdClient(int idClient) {
+    public void setIdClient(String idClient) {
         this.idClient = idClient;
     }
 
-    public String getAdresse() {
+    public Address getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
+    public void setAdresse(Address adresse) {
         this.adresse = adresse;
     }
 
-    public int getNumTelephone() {
+    public String getNumTelephone() {
         return numTelephone;
     }
 
-    public void setNumTelephone(int numTelephone) {
+    public void setNumTelephone(String numTelephone) {
         this.numTelephone = numTelephone;
     }
 
-    public int getNumCarteCredit() {
+    public String getNumCarteCredit() {
         return numCarteCredit;
     }
 
-    public void setNumCarteCredit(int numCarteCredit) {
+    public void setNumCarteCredit(String numCarteCredit) {
         this.numCarteCredit = numCarteCredit;
     }
 
@@ -64,13 +67,11 @@ public class Client extends Conductor {
         this.conducteursAccompagnants = conducteursAccompagnants;
     }
 
-    @Override
-    public int getNumPermisConduire() {
+    public String getNumPermisConduire() {
         return numPermisConduire;
     }
 
-    @Override
-    public void setNumPermisConduire(int numPermisConduire) {
+    public void setNumPermisConduire(String numPermisConduire) {
         this.numPermisConduire = numPermisConduire;
     }
 
@@ -78,9 +79,7 @@ public class Client extends Conductor {
         if(obj == null)
             return false;
 
-        if(this.idClient == obj.idClient && this.numCarteCredit == obj.numCarteCredit)
-            return true;
-        return false;
+        return Objects.equals(this.idClient, obj.idClient) && Objects.equals(this.numCarteCredit, obj.numCarteCredit);
     }
 
     @Override
@@ -93,5 +92,21 @@ public class Client extends Conductor {
                 ", numCarteCredit=" + numCarteCredit +
                 ", conducteursAccompagnants=" + conducteursAccompagnants +
                 '}';
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 }

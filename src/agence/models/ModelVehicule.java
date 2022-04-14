@@ -1,16 +1,12 @@
 package agence.models;
 
-public class ModeleV {
+public class ModelVehicule {
 
     private String marque;
-    private String modele;
     private int nbPlace;
-    // private int moteur; ??
-    //private Type type;
 
-    public ModeleV(String marque, String modele, int nbPlace) {
+    public ModelVehicule(String marque, String modele, int nbPlace) {
         this.marque = marque;
-        this.modele = modele;
         this.nbPlace = nbPlace;
     }
 
@@ -20,14 +16,6 @@ public class ModeleV {
 
     public void setMarque(String marque) {
         this.marque = marque;
-    }
-
-    public String getModele() {
-        return modele;
-    }
-
-    public void setModele(String modele) {
-        this.modele = modele;
     }
 
     public int getNbPlace() {
@@ -42,7 +30,6 @@ public class ModeleV {
     public String toString() {
         return "Modele{" +
                 "marque='" + marque + '\'' +
-                ", modele='" + modele + '\'' +
                 ", nbPlace=" + nbPlace +
                 '}';
     }
