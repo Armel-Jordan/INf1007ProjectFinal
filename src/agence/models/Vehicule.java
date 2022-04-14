@@ -8,10 +8,12 @@ public class Vehicule {
     private ModelVehicule modelVehicule;
     private boolean estEndommage;
     private boolean estDisponible;
+    private double prixVehicule;
 
     //constructeur
-    public Vehicule(String immatriculation, String couleur, TypeVehicule type) {
+    public Vehicule(String immatriculation, String couleur, TypeVehicule type, double prixVehicule) {
         this.immatriculation = immatriculation;
+        this.prixVehicule = prixVehicule;
         this.kilometrage = 0;
         this.couleur = couleur;
         this.type = type;
@@ -94,6 +96,14 @@ public class Vehicule {
                 ", estEndommage=" + estEndommage +
                 ", estDisponible=" + estDisponible +
                 '}';
+    }
+
+    public double getPrixVehicule() {
+        return prixVehicule;
+    }
+
+    public void setPrixVehicule(double prixVehicule) {
+        this.prixVehicule = prixVehicule;
     }
 }
 

@@ -16,20 +16,35 @@ public class Location {
     private Client client;
     private boolean estEnCours;
     private double montantGarantie;
+    private double prixLocationInitial;
+    private Paiement paiement;
 
-    public Location(LocalDateTime dateFinPrevueLocation, Vehicule vehicule, Client client) {
+    public Location(Vehicule vehicule, Client client, LocalDateTime dateFinPrevueLocation) {
         this.idLocation = UUID.randomUUID().toString();
         this.dateDebutLocation = LocalDateTime.now();
         this.dateFinPrevueLocation = dateFinPrevueLocation;
         this.kilometrageOffert = calculKilometrageOffert();
-        this.kilometrageActuel = this.vehicule.getKilometrage();
+        this.kilometrageActuel = vehicule.getKilometrage();
+        this.prixLocationInitial = calculPrixInitial();
         this.vehicule = vehicule;
         this.client = client;
         this.estEnCours = false;
         this.montantGarantie = 200;
+        this.paiement = new Paiement();
     }
 
-    public Location() {}
+    private double calculPrixInitial() {
+        // difference entre la date de fin prevue et la date de debut
+        long nbJour = this.dateFinPrevueLocation.toLocalDate().toEpochDay() - this.dateDebutLocation.toLocalDate().toEpochDay();
+        return nbJour * vehicule.getPrixVehicule();
+    }
+
+    public Location() {
+        this.idLocation = UUID.randomUUID().toString();
+        this.dateDebutLocation = LocalDateTime.now();
+        this.estEnCours = false;
+        this.montantGarantie = 200;
+    }
 
     /**
      * Methode qui permet de calculer le nombre de kilometrage permit pour la location
@@ -128,5 +143,21 @@ public class Location {
 
     public void setMontantGarantie(double montantGarantie) {
         this.montantGarantie = montantGarantie;
+    }
+
+    public Paiement getPaiement() {
+        return paiement;
+    }
+
+    public void setPaiement(Paiement paiement) {
+        this.paiement = paiement;
+    }
+
+    public double getPrixLocationInitial() {
+        return prixLocationInitial;
+    }
+
+    public void setPrixLocationInitial(double prixLocationInitial) {
+        this.prixLocationInitial = prixLocationInitial;
     }
 }

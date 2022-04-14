@@ -3,14 +3,14 @@ package agence.controllers;
 import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.RetourVehicule;
-import agence.storage.GestionnairePersitance;
+import agence.storage.StockagePersistant;
 import agence.views.RetourVehiculeView;
 
 import java.util.List;
 
 public class RegistreVehicule {
 
-    private GestionnairePersitance stockage;
+    private StockagePersistant stockage;
     private RetourVehiculeView retourVehiculeViews;
     private RetourVehicule retourVehicule;
     private Location location;
