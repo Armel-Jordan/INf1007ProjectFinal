@@ -1,4 +1,4 @@
-package models;
+package agence.models;
 
 public class Conductor {
 

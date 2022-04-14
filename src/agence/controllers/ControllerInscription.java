@@ -1,4 +1,4 @@
-package controllers;
+package agence.controllers;
 
 public class ControllerInscription {
 }

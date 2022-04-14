@@ -1,6 +1,4 @@
-package models;
-
-import java.util.List;
+package agence.models;
 
 public class Vehicule {
 

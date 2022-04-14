@@ -1,4 +1,4 @@
-package storage;
+package agence.storage;
 
 public class GestionnairePersitance {
 }
