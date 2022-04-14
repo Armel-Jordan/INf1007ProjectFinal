@@ -1,6 +1,7 @@
 package models;
 
 
+import java.util.HashSet;
 import java.util.List;
 
 public class Client extends Conductor {
@@ -11,7 +12,7 @@ public class Client extends Conductor {
     private int numPermisConduire;
 
     //lorsqu'un client s'inscrit il doit indiquer les autres conducteurs potentiels
-    List<Conductor> conducteursAccompagnants;
+    HashSet<Conductor> conducteursAccompagnants;
 
     public Client(String nom, String preNom, int numPermisConduire, int idClient, String adresse, int numTelephone, int numCarteCredit) {
         super(nom, preNom, numPermisConduire);
@@ -55,11 +56,11 @@ public class Client extends Conductor {
         this.numCarteCredit = numCarteCredit;
     }
 
-    public List<Conductor> getConducteursAccompagnants() {
+    public HashSet<Conductor> getConducteursAccompagnants() {
         return conducteursAccompagnants;
     }
 
-    public void setConducteursAccompagnants(List<Conductor> conducteursAccompagnants) {
+    public void setConducteursAccompagnants(HashSet<Conductor> conducteursAccompagnants) {
         this.conducteursAccompagnants = conducteursAccompagnants;
     }
 

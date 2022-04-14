@@ -8,7 +8,7 @@ public class Vehicule {
     private double kilometrage;
     private String couleur;
     private String type;
-    private List<ModeleV> modeleV;
+    private ModeleV modeleV;
     private boolean estEndommage;
     private boolean estDisponible;
     private String numeroLocation;
@@ -53,11 +53,11 @@ public class Vehicule {
         this.couleur = couleur;
     }
 
-    public List<ModeleV> getListModele() {
+    public ModeleV getListModele() {
         return modeleV;
     }
 
-    public void setListModele(List<ModeleV> modeleV) {
+    public void setListModele(ModeleV modeleV) {
         this.modeleV = modeleV;
     }
 
@@ -77,11 +77,11 @@ public class Vehicule {
         this.estDisponible = estDisponible;
     }
 
-    public List<ModeleV> getModele() {
+    public ModeleV getModele() {
         return modeleV;
     }
 
-    public void setModele(List<ModeleV> modele) {
+    public void setModele(ModeleV modele) {
         this.modeleV = modele;
     }
 
