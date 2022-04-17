@@ -10,6 +10,7 @@ public class Location {
     private String idLocation;
     private LocalDateTime dateDebutLocation;
     private LocalDateTime dateFinPrevueLocation;
+    private LocalDateTime dateFinReelleLocation;
     private double kilometrageOffert;
     private double kilometrageActuel;
     private Vehicule vehicule;
@@ -23,9 +24,10 @@ public class Location {
         this.idLocation = UUID.randomUUID().toString();
         this.dateDebutLocation = LocalDateTime.now();
         this.dateFinPrevueLocation = dateFinPrevueLocation;
+        this.dateFinReelleLocation = dateFinPrevueLocation;
         this.kilometrageOffert = calculKilometrageOffert();
         this.kilometrageActuel = vehicule.getKilometrage();
-        this.prixLocationInitial = calculPrixInitial();
+        this.prixLocationInitial = calculPrixInitial(vehicule);
         this.vehicule = vehicule;
         this.client = client;
         this.estEnCours = false;
@@ -33,7 +35,7 @@ public class Location {
         this.paiement = new Paiement();
     }
 
-    private double calculPrixInitial() {
+    private double calculPrixInitial(Vehicule vehicule) {
         // difference entre la date de fin prevue et la date de debut
         long nbJour = this.dateFinPrevueLocation.toLocalDate().toEpochDay() - this.dateDebutLocation.toLocalDate().toEpochDay();
         return nbJour * vehicule.getPrixVehicule();
@@ -51,13 +53,13 @@ public class Location {
      * @return double
      * */
     public double calculKilometrageOffert() {
-        LocalDateTime dateDebutLocation = this.dateDebutLocation;
+        LocalDateTime dateDebutLocation = LocalDateTime.now();
         // 4 jours de location
         LocalDateTime dateFinPrevueLocation = this.dateFinPrevueLocation;
         // difference de jour entre la date de debut et la date de fin
         long nbJour = dateFinPrevueLocation.toLocalDate().toEpochDay() - dateDebutLocation.toLocalDate().toEpochDay();
 
-        // nombre de kilometrage offert
+        // nombre de kilometre offert
         return (double) (nbJour * 100);
     }
 
@@ -159,5 +161,13 @@ public class Location {
 
     public void setPrixLocationInitial(double prixLocationInitial) {
         this.prixLocationInitial = prixLocationInitial;
+    }
+
+    public LocalDateTime getDateFinReelleLocation() {
+        return dateFinReelleLocation;
+    }
+
+    public void setDateFinReelleLocation(LocalDateTime dateFinReelleLocation) {
+        this.dateFinReelleLocation = dateFinReelleLocation;
     }
 }

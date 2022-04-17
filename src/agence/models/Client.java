@@ -27,6 +27,10 @@ public class Client {
         this.numPermisConduire = numPermisConduire;
     }
 
+    // constructeur vide
+    public Client() {
+    }
+
     public String getIdClient() {
         return idClient;
     }
