@@ -3,7 +3,7 @@ package agence.controllers;
 import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
-import agence.views.LocationView;
+import agence.views.impl.LocationView;
 
 import java.util.List;
 
@@ -13,7 +13,10 @@ public class RegistreLocation {
     private LocationView locationView;
 
     public Location chargerLocation(String idLocation){
-        return stockage.getLocationById(idLocation);
+        return stockage.getLocationById(idLocation)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("Location avec l'ID %s non trouvée", idLocation)));
     }
 
     public List<Double> calculerFraisRetard(Location location){
@@ -25,7 +28,7 @@ public class RegistreLocation {
      * Methode qui permet de création une nouvelle location
      *
      * */
-    public void creationLoation(){
+    public void creationLocation(){
         // initialiser une location
         Location location = new Location();
 

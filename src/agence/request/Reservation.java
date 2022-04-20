@@ -3,6 +3,7 @@ package agence.request;
 import agence.models.Client;
 import agence.models.Vehicule;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -12,15 +13,15 @@ import java.util.UUID;
  */
 public class Reservation {
     private String id;
-    private String date;
+    private LocalDateTime date;
     private Client client;
     private Vehicule vehicule;
 
-    public Reservation(String date, Client client, Vehicule vehicule) {
+    public Reservation(Client client, Vehicule vehicule, LocalDateTime date) {
         this.id = UUID.randomUUID().toString();
-        this.date = date;
         this.client = client;
         this.vehicule = vehicule;
+        this.date = date;
     }
 
     public String getId() {
@@ -47,11 +48,11 @@ public class Reservation {
         this.vehicule = vehicule;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }
