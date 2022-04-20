@@ -16,11 +16,13 @@ import java.util.Scanner;
  * @version 1.0
  * @since 2022-04-14
  */
-public class LocationView {
+public class LocationView implements ILocationView {
 
     private StockagePersistant stockage;
     private Scanner scanner = new Scanner(System.in);
 
+
+    @Override
     public Location saisirInfomationLocation(Location location) {
         // demander les informations la voiture
         String immatriculation = obtenirMatriculationChoisies();
@@ -70,6 +72,7 @@ public class LocationView {
         return scanner.nextLine();
     }
 
+    @Override
     public void procederPaiement(Location location) {
         Paiement paiement = location.getPaiement();
         System.out.println("Entrez le numero de le montant du paiement");
