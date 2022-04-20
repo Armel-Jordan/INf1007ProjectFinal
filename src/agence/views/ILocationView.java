@@ -11,4 +11,5 @@ public interface ILocationView {
 
     Location saisirInfomationLocation(Location location);
     void procederPaiement(Location location);
+    void afficherListVehicules();
 }

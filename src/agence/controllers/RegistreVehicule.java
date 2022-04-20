@@ -4,14 +4,14 @@ import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
-import agence.views.impl.RetourVehiculeView;
+import agence.views.IRetourVehiculeView;
 
 import java.util.List;
 
 public class RegistreVehicule {
 
     private StockagePersistant stockage;
-    private RetourVehiculeView retourVehiculeViews;
+    private IRetourVehiculeView retourVehiculeViews;
     private RetourVehicule retourVehicule;
     private Location location;
     private RegistreLocation registreLocation;

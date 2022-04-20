@@ -16,12 +16,12 @@ public class Reservation {
     private LocalDateTime date;
     private Client client;
     private Vehicule vehicule;
+    private boolean estCours;
 
-    public Reservation(Client client, Vehicule vehicule, LocalDateTime date) {
+    // constructeur par défaut
+    public Reservation() {
         this.id = UUID.randomUUID().toString();
-        this.client = client;
-        this.vehicule = vehicule;
-        this.date = date;
+        this.estCours = false;
     }
 
     public String getId() {
@@ -54,5 +54,13 @@ public class Reservation {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public boolean isEstCours() {
+        return estCours;
+    }
+
+    public void setEstCours(boolean estCours) {
+        this.estCours = estCours;
     }
 }

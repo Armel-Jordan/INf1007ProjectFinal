@@ -27,8 +27,8 @@ class StockagePersistantTest {
     Location location2;
     Client client = new Client();
     Client client2 = new Client();
-    Reservation reservation;
-    Reservation reservation2;
+    Reservation reservation = new Reservation();
+    Reservation reservation2 = new Reservation();
 
     @BeforeEach
     void setUp() {
@@ -41,8 +41,12 @@ class StockagePersistantTest {
         location2 = new Location();
         client = new Client();
         client2 = new Client();
-        reservation = new Reservation(client, vehicule, LocalDateTime.of(2022,4,27,12,0));
-        reservation2 = new Reservation(client2,vehicule2, LocalDateTime.of(2022,5,1,12,0));
+        reservation.setClient(client);
+        reservation.setVehicule(vehicule);
+        reservation.setDate(LocalDateTime.of(2022,4,27,12,0));
+        reservation2.setClient(client2);
+        reservation2.setVehicule(vehicule2);
+        reservation2.setDate(LocalDateTime.of(2022,5,1,12,0));
     }
 
     @Test

@@ -8,24 +8,24 @@ import agence.request.Reservation;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class StockagePersistant implements StockageRepository{
 
-    private Map<String, Client> catalogueClient;
-    private Map<String, Vehicule> catalogueVehicule;
+    private final Map<String, Client> catalogueClient;
+    private final Map<String, Vehicule> catalogueVehicule;
     private Map<String, Location> catalogueLocation;
     private Map<String, Reservation> catalogueReservation;
-    private Map<String, Reservation> catalogueReservationEnCours;
-    private Map<String, Client> catalogueClientRetardataire;
-    private Map<String, Vehicule> catalogueVehiculeDisponible;
-    private Map<String, Paiement> cataloguePaiement;
+    private final Map<String, Reservation> catalogueReservationEnCours;
+    private final Map<String, Client> catalogueClientRetardataire;
+    private final Map<String, Vehicule> catalogueVehiculeDisponible;
+    private final Map<String, Paiement> cataloguePaiement;
 
 
     public StockagePersistant() {
+        this.catalogueReservationEnCours = new HashMap<>();
+        this.cataloguePaiement = new HashMap<>();
         this.catalogueClient = new HashMap<>();
         this.catalogueVehicule = new HashMap<>();
         this.catalogueLocation =new HashMap<>();
@@ -47,11 +47,6 @@ public class StockagePersistant implements StockageRepository{
     @Override
     public void addVehiculeDisponible(Vehicule vehicule) {
         this.catalogueVehiculeDisponible.put(vehicule.getImmatriculation(), vehicule);
-    }
-
-    @Override
-    public List<Vehicule> getVehiculesDisponibles() {
-        return this.catalogueVehiculeDisponible.values().stream().collect(Collectors.toList());
     }
 
     public Map<String, Vehicule> getCatalogueVehicule() {
@@ -99,6 +94,22 @@ public class StockagePersistant implements StockageRepository{
                 .stream()
                 .noneMatch(r -> r.getVehicule().getImmatriculation().equals(immatriculation)
                         && r.getDate().isBefore(date));
+    }
+
+    @Override
+    public void ajouterReservation(Reservation reservation) {
+        reservation.setEstCours(true);
+        this.catalogueReservation.put(reservation.getId(), reservation);
+    }
+
+    @Override
+    public void ajouterClient(Client client) {
+        this.catalogueClient.put(client.getNumPermisConduire(), client);
+    }
+
+    @Override
+    public void ajouterVehicule(Vehicule vehicule) {
+        this.catalogueVehicule.put(vehicule.getImmatriculation(), vehicule);
     }
 
     public void setCatalogueLocation(Map<String, Location> catalogueLocation) {

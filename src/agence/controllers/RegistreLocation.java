@@ -3,14 +3,14 @@ package agence.controllers;
 import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
-import agence.views.impl.LocationView;
+import agence.views.ILocationView;
 
 import java.util.List;
 
 public class RegistreLocation {
 
     private StockagePersistant stockage;
-    private LocationView locationView;
+    private ILocationView locationView;
 
     public Location chargerLocation(String idLocation){
         return stockage.getLocationById(idLocation)

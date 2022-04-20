@@ -9,7 +9,10 @@ import agence.views.ILocationView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * @author Josue Lubaki
@@ -19,7 +22,7 @@ import java.util.Scanner;
 public class LocationView implements ILocationView {
 
     private StockagePersistant stockage;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
 
     @Override
@@ -59,17 +62,21 @@ public class LocationView implements ILocationView {
     }
 
     private String obtenirMatriculationChoisies() {
-        System.out.println("Voici la liste des vehicules disponibles");
-        System.out.println("-----------------------------------------------");
-        for(int i = 0; i < stockage.getVehiculesDisponibles().size(); i++) {
-            System.out.println((stockage.getVehiculesDisponibles().get(i).getImmatriculation() + " | "
-                    + stockage.getVehiculesDisponibles().get(i).getModele()
-                    + " | " + stockage.getVehiculesDisponibles().get(i).getPrixVehicule() + " $"));
-        }
-        System.out.println("-----------------------------------------------");
+        afficherListVehicules();
         System.out.println("Entrez l'immatriculation du vehicule que vous souhaitez louer");
 
         return scanner.nextLine();
+    }
+
+    @Override
+    public void afficherListVehicules() {
+        System.out.println("=== Liste des vehicules ===");
+        listVehicules().forEach(v -> System.out.println(v.getImmatriculation() + " | "
+                + v.getModele() + " | " + v.getCouleur() + " | " + v.getPrixVehicule() + " CAD"));
+    }
+
+    private List<Vehicule> listVehicules(){
+        return new ArrayList<>(stockage.getCatalogueVehicule().values());
     }
 
     @Override
