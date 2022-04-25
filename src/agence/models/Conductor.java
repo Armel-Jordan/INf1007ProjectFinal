@@ -1,15 +1,22 @@
 package agence.models;
 
+import java.util.UUID;
+
 public class Conductor {
 
+    private String idConductor;
     private String nom;
-    private String preNom;
+    private String prenom;
     private String numPermisConduire;
 
-    public Conductor(String nom, String preNom, String numPermisConduire) {
+    public Conductor(String nom, String prenom, String numPermisConduire) {
         this.nom = nom;
-        this.preNom = preNom;
+        this.prenom = prenom;
         this.numPermisConduire = numPermisConduire;
+    }
+
+    public Conductor(){
+        this.idConductor = UUID.randomUUID().toString();
     }
 
     public String getNom() {
@@ -20,12 +27,12 @@ public class Conductor {
         this.nom = nom;
     }
 
-    public String getPreNom() {
-        return preNom;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setPreNom(String preNom) {
-        this.preNom = preNom;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public String getNumPermisConduire() {
@@ -36,12 +43,20 @@ public class Conductor {
         this.numPermisConduire = numPermisConduire;
     }
 
+
+    public String getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(String idConductor) {
+        this.idConductor = idConductor;
+    }
+
     @Override
     public String toString() {
-        return "Conducteur{" +
-                "nom='" + nom + '\'' +
-                ", preNom='" + preNom + '\'' +
-                ", numPermisConduire=" + numPermisConduire +
-                '}';
+        return "Conducteur : \n" +
+                "\tnom = '" + nom + "'\n" +
+                "\tprenom = '" + prenom + "'\n" +
+                "\tnumPermisConduire=" + numPermisConduire;
     }
 }

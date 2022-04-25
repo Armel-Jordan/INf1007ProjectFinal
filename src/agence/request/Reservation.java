@@ -63,4 +63,14 @@ public class Reservation {
     public void setEstCours(boolean estCours) {
         this.estCours = estCours;
     }
+
+    @Override
+    public String toString() {
+        return "Reservation : \n" +
+                "\tid = '" + id + "'\n" +
+                "\tdate = " + date + "\n" +
+                "\tclient=" + client + "\n" +
+                "\tvehicule=" + vehicule + "\n" +
+                "\testCours=" + estCours + "\n";
+    }
 }

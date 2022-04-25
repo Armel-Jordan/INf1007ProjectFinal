@@ -13,6 +13,8 @@ public class Address {
         this.zip = zip;
     }
 
+    public Address() {}
+
     public String getNumeroMunicipal() {
         return numeroMunicipal;
     }

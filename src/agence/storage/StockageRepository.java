@@ -18,7 +18,6 @@ public interface StockageRepository {
     Optional<Location> getLocationById(String id);
     void addVehiculeEndommage(Vehicule vehicule);
     void addVehiculeDisponible(Vehicule vehicule);
-//    List<Vehicule> getVehiculesDisponibles();
     Optional<Vehicule> getVehiculeByImmatriculation(String immatriculation);
     Optional<Client> getClientByNumeroPermis(String numeroPermis);
     void addClient(Client client);
@@ -28,4 +27,8 @@ public interface StockageRepository {
     void ajouterReservation(Reservation reservation);
     void ajouterClient(Client client);
     void ajouterVehicule(Vehicule vehicule);
+    Optional<Reservation> getReservationByClient(String numeroPermis);
+    boolean hasLocationByNumeroPermis(String numeroPermis);
+    boolean hasReservationByNumeroPermis(String numeroPermis);
+    void deleteReservationClient(Reservation reservation);
 }

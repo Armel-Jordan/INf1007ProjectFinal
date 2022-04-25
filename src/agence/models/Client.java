@@ -29,6 +29,7 @@ public class Client {
 
     // constructeur vide
     public Client() {
+        this.idClient = UUID.randomUUID().toString();
     }
 
     public String getIdClient() {

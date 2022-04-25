@@ -27,6 +27,20 @@ public class LocationView implements ILocationView {
 
     @Override
     public Location saisirInfomationLocation(Location location) {
+        // demander les informations du client
+        System.out.println("Entrez le numero du permis de conduire du client");
+        String numeroPermis = scanner.nextLine();
+
+        // verifier si le client a une location en cours
+        if(stockage.hasLocationByNumeroPermis(numeroPermis))
+            throw new IllegalStateException("Le client a deja une location en cours");
+
+        // get client by numero permis
+        Client client = stockage.getClientByNumeroPermis(numeroPermis)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("Le client avec le numero de permis %s n'existe pas", numeroPermis)));
+
         // demander les informations la voiture
         String immatriculation = obtenirMatriculationChoisies();
 
@@ -35,16 +49,6 @@ public class LocationView implements ILocationView {
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException(String.format("Le vehicule avec l'ID %s n'existe pas", immatriculation)));
-
-        // demander les informations du client
-        System.out.println("Entrez le numero du permis de conduire du client");
-        String numeroPermis = scanner.nextLine();
-
-        // get client by numero permis
-        Client client = stockage.getClientByNumeroPermis(numeroPermis)
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Le client avec le numero de permis %s n'existe pas", numeroPermis)));
 
         // demander la date de Fin de location
         System.out.println("Entrez la date de fin de location (format: dd/mm/yyyy)");
@@ -70,7 +74,7 @@ public class LocationView implements ILocationView {
 
     @Override
     public void afficherListVehicules() {
-        System.out.println("=== Liste des vehicules ===");
+        System.out.println("=================== Liste des vehicules =================");
         listVehicules().forEach(v -> System.out.println(v.getImmatriculation() + " | "
                 + v.getModele() + " | " + v.getCouleur() + " | " + v.getPrixVehicule() + " CAD"));
     }

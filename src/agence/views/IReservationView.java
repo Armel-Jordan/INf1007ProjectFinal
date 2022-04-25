@@ -16,4 +16,6 @@ public interface IReservationView {
     LocalDateTime dateReservation();
     void erreurReservation(Reservation reservation);
     boolean sortir();
+    void modificationReservation(Reservation reservationClient);
+    void suppressionReservation(Reservation reservationClient);
 }

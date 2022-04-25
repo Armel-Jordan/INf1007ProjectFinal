@@ -13,6 +13,9 @@ public class RegistreReservation {
     private StockagePersistant stockage;
     private IReservationView view;
 
+    /**
+     * Methode qui permet d'ajouter la réservation dans le stockage
+     * */
     public void ajoutReservation(){
         Reservation reservation = new Reservation();
 
@@ -32,6 +35,41 @@ public class RegistreReservation {
        } while(!peutReservationDate(reservation));
 
        stockage.ajouterReservation(reservation);
+    }
+
+
+    /**
+     * Methode qui permet de modifier une reservation
+     * */
+    public void modifierReservation(){
+        Reservation reservation = new Reservation();
+        String numeroPermis = recupererNumeroPermis();
+
+        // verifier si le client a une reservation en cours
+        if(!stockage.hasReservationByNumeroPermis(numeroPermis))
+            throw new RuntimeException(String.format("Le client %s n'a pas de réservation en cours", numeroPermis));
+
+        // charger la reservation du client
+        Reservation reservationClient = chargerReservationClient(numeroPermis);
+
+        view.modificationReservation(reservationClient);
+
+    }
+
+    /**
+     * Methode qui permet de supprimer une reservation
+     * */
+    public void supprimerReservation(){
+        String numeroPermis = recupererNumeroPermis();
+
+        // verifier si le client a une reservation en cours
+        if(!stockage.hasReservationByNumeroPermis(numeroPermis))
+            throw new RuntimeException(String.format("Le client %s n'a pas de réservation en cours", numeroPermis));
+
+        // charger la reservation du client
+        Reservation reservationClient = chargerReservationClient(numeroPermis);
+
+        view.suppressionReservation(reservationClient);
     }
 
     /**

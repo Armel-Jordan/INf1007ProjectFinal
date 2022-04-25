@@ -16,7 +16,7 @@ public class RegistreVehicule {
     private Location location;
     private RegistreLocation registreLocation;
 
-    public void creerNouveauRetour(){
+    public void creerNouveauRetour() {
         retourVehicule = new RetourVehicule();
         location = new Location();
 

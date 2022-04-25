@@ -112,6 +112,36 @@ public class StockagePersistant implements StockageRepository{
         this.catalogueVehicule.put(vehicule.getImmatriculation(), vehicule);
     }
 
+    @Override
+    public Optional<Reservation> getReservationByClient(String numeroPermis) {
+        return catalogueReservation
+                .values()
+                .stream()
+                .filter(r -> r.getClient().getNumPermisConduire().equals(numeroPermis))
+                .findFirst();
+    }
+
+    @Override
+    public boolean hasLocationByNumeroPermis(String numeroPermis) {
+        return catalogueLocation
+                .values()
+                .stream()
+                .anyMatch(l -> l.getClient().getNumPermisConduire().equals(numeroPermis));
+    }
+
+    @Override
+    public boolean hasReservationByNumeroPermis(String numeroPermis) {
+        return catalogueReservation
+                .values()
+                .stream()
+                .anyMatch(r -> r.getClient().getNumPermisConduire().equals(numeroPermis));
+    }
+
+    @Override
+    public void deleteReservationClient(Reservation reservation) {
+        catalogueReservation.remove(reservation.getId());
+    }
+
     public void setCatalogueLocation(Map<String, Location> catalogueLocation) {
         this.catalogueLocation = catalogueLocation;
     }
