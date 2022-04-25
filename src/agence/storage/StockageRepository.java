@@ -31,4 +31,6 @@ public interface StockageRepository {
     boolean hasLocationByNumeroPermis(String numeroPermis);
     boolean hasReservationByNumeroPermis(String numeroPermis);
     void deleteReservationClient(Reservation reservation);
+
+    void modifierReservation(Reservation reservationClient);
 }

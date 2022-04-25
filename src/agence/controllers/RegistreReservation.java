@@ -52,8 +52,14 @@ public class RegistreReservation {
         // charger la reservation du client
         Reservation reservationClient = chargerReservationClient(numeroPermis);
 
-        view.modificationReservation(reservationClient);
+        reservationClient = view.modificationReservation(reservationClient);
 
+        // terminer la modification
+        terminerModificationReservationClient(reservationClient);
+    }
+
+    private void terminerModificationReservationClient(Reservation reservationClient) {
+        stockage.modifierReservation(reservationClient);
     }
 
     /**

@@ -142,6 +142,11 @@ public class StockagePersistant implements StockageRepository{
         catalogueReservation.remove(reservation.getId());
     }
 
+    @Override
+    public void modifierReservation(Reservation reservationClient) {
+        catalogueReservation.put(reservationClient.getId(), reservationClient);
+    }
+
     public void setCatalogueLocation(Map<String, Location> catalogueLocation) {
         this.catalogueLocation = catalogueLocation;
     }

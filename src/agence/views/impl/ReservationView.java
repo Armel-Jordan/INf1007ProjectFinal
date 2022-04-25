@@ -62,15 +62,15 @@ public class ReservationView implements IReservationView {
     }
 
     @Override
-    public void modificationReservation(Reservation reservationClient) {
+    public Reservation modificationReservation(Reservation reservationClient) {
         System.out.println("Voici les informations de la réservation : ");
         System.out.println(reservationClient.toString());
 
         System.out.println("Voulez-vous modifier la réservation ? (Oui/Non)");
         if (scanner.nextLine().trim().equalsIgnoreCase("Non"))
-            return;
+            return null;
 
-        menuModificationReservation(reservationClient);
+        return menuModificationReservation(reservationClient);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ReservationView implements IReservationView {
      * Menu de modification de la réservation
      * @param reservation la réservation à modifier
      * */
-    private void menuModificationReservation(Reservation reservation) {
+    private Reservation menuModificationReservation(Reservation reservation) {
         do {
             System.out.println("1. Modifier la date de la réservation");
             System.out.println("2. Modifier le véhicule");
