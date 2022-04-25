@@ -93,8 +93,6 @@ public class Vehicule {
                 ", couleur='" + couleur + '\'' +
                 ", type='" + type + '\'' +
                 ", modele=" + modelVehicule +
-                ", estEndommage=" + estEndommage +
-                ", estDisponible=" + estDisponible +
                 '}';
     }
 

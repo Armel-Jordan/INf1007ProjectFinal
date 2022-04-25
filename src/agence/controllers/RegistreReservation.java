@@ -143,4 +143,14 @@ public class RegistreReservation {
         return stockage.getClientByNumeroPermis(numeroPermis);
     }
 
+
+    /**
+     * Méthode qui permet de charger la reservation du client
+     * @param numeroPermis @string le numero de permis
+     * @return Reservation
+     * */
+    private Reservation chargerReservationClient(String numeroPermis) {
+        return stockage.getReservationByClient(numeroPermis).get();
+    }
+
 }
