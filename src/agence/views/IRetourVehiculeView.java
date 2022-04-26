@@ -1,5 +1,7 @@
 package agence.views;
 
+import agence.models.Vehicule;
+
 /**
  * @author Josue Lubaki
  * @version 1.0
@@ -10,4 +12,8 @@ public interface IRetourVehiculeView {
     void afficherAmende(double abs);
     void afficherPrixRetour(double fraisRetour);
     void signalerFinRetourVehicule();
+
+    String demanderImmatriculeEndommage();
+
+    void demanderDestinationFinale(Vehicule vehicule);
 }

@@ -20,8 +20,8 @@ public class RegistreLocation {
     }
 
     public List<Double> calculerFraisRetard(Location location){
-        RetourVehicule retourVehicule = new RetourVehicule();
-        return retourVehicule.calculerFraisRetard(location);
+        RetourVehicule retourVehicule = new RetourVehicule(location);
+        return retourVehicule.calculerFraisRetard();
     }
 
     /**
@@ -32,10 +32,10 @@ public class RegistreLocation {
         // initialiser une location
         Location location = new Location();
 
-        // demander les informations du vehicule, du client et de la date de fin de location
+        // demander les informations du véhicule, du client et de la date de fin de location
         location = locationView.saisirInfomationLocation(location);
 
-        // proceder au paiement de la location
+        // procéder au paiement de la location
         locationView.procederPaiement(location);
 
         // sauvegarder la location

@@ -1,5 +1,7 @@
 package agence.views.impl;
 
+import agence.models.Vehicule;
+import agence.storage.StockagePersistant;
 import agence.views.IRetourVehiculeView;
 
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class RetourVehiculeView implements IRetourVehiculeView {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public String demanderIdLocation(){
+    public String demanderIdLocation() {
         System.out.println("Entrer le numero d'identification de la Location");
         return scanner.nextLine();
     }
@@ -32,5 +34,41 @@ public class RetourVehiculeView implements IRetourVehiculeView {
     @Override
     public void signalerFinRetourVehicule() {
         System.out.println("Fin de retour du vehicule");
+    }
+
+    @Override
+    public String demanderImmatriculeEndommage() {
+        System.out.println("Entrer l'immatricule du vehicule endommage");
+        return scanner.nextLine();
+    }
+
+    @Override
+    public void demanderDestinationFinale(Vehicule vehicule) {
+        // créer un switch
+        do {
+            System.out.println("Entrer :\n");
+            System.out.println("\t1- pour ajouter le vehicule à la liste des vehicules à Réparer");
+            System.out.println("\t2- pour ajouter le vehicule à la liste des vehicules à supprimer");
+            System.out.println("\t3- pour Retourner");
+            int choix = scanner.nextInt();
+            switch (choix) {
+                case 1:
+                    StockagePersistant.catalogueVehiculeRepare.put(vehicule.getImmatriculation(), vehicule);
+                    System.out.println("Le vehicule a été ajouté dans la liste des vehicules à réparer");
+                    break;
+                case 2:
+                    StockagePersistant.catalogueVehiculeRetire.put(vehicule.getImmatriculation(), vehicule);
+                    System.out.println("Le vehicule a été ajouté dans la liste des vehicules à retirer");
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Choix invalide !\n");
+            }
+        } while (true);
+
+//        System.out.println("Voulez-vous supprimer la réservation ? (Oui/Non)");
+//        if (scanner.nextLine().trim().equalsIgnoreCase("Non"))
+//            return;
     }
 }

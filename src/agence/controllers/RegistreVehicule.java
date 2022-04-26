@@ -17,14 +17,15 @@ public class RegistreVehicule {
     private RegistreLocation registreLocation;
 
     public void creerNouveauRetour() {
-        retourVehicule = new RetourVehicule();
         location = new Location();
+        retourVehicule = new RetourVehicule(location);
 
         // demande d'id de location
         String idLocation = retourVehiculeViews.demanderIdLocation();
 
         // charger la location
         location = registreLocation.chargerLocation(idLocation);
+        retourVehicule.setLocation(location);
 
         // calculer les frais retard
         List<Double> fraisRetard = registreLocation.calculerFraisRetard(location);
@@ -33,7 +34,7 @@ public class RegistreVehicule {
         verifierEtatVehicule(location.getVehicule());
 
         // frais de retour
-        double fraisRetour = retourVehicule.getFraisRetour(location);
+        double fraisRetour = retourVehicule.getFraisRetour();
 
         if(fraisRetour < 0){
             retourVehiculeViews.afficherAmende(Math.abs(fraisRetour));
@@ -47,6 +48,18 @@ public class RegistreVehicule {
         retourVehiculeViews.signalerFinRetourVehicule();
     }
 
+
+    public void retirerVehiculeEndommage(){
+       String immatricule = retourVehiculeViews.demanderImmatriculeEndommage();
+
+       // verifier si le vehicule existe dans la liste des vehicules retournés
+       if(!stockage.getVehiculeRetourne().containsKey(immatricule))
+           throw new IllegalStateException("Le vehicule n'existe pas dans la liste des vehicules retournés");
+
+       Vehicule vehicule = stockage.getVehiculeRetourne().get(immatricule);
+
+       retourVehiculeViews.demanderDestinationFinale(vehicule);
+    }
     private void verifierEtatVehicule(Vehicule vehicule){
 
         if(vehicule.isEstEndommage()){

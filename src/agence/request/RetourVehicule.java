@@ -15,18 +15,20 @@ public class RetourVehicule {
     private String id;
     private final List<Double> listeFrais;
     private LocalDateTime dateRetourVehicule;
+    private Location location;
 
-    public RetourVehicule() {
+    public RetourVehicule(Location location) {
         this.id = UUID.randomUUID().toString();
         this.listeFrais = new ArrayList<>();
         this.dateRetourVehicule = LocalDateTime.now();
+        this.location = location;
     }
 
     /**
      * Methode qui calcul les frais liés au retard
      * @param location La Location dont on souhaite calculer les frais de retard
      * */
-    public List<Double> calculerFraisRetard(Location location){
+    public List<Double> calculerFraisRetard(){
         LocalDateTime dateFinReelleLocation = location.getDateFinReelleLocation();
         LocalDateTime dateFinPrevueLocation = location.getDateFinPrevueLocation();
         LocalTime heureFinPrevueLocation = dateFinPrevueLocation.toLocalTime();
@@ -71,10 +73,9 @@ public class RetourVehicule {
 
     /**
      * Methode qui retourne le frais dont on doit rembourser au client
-     * @param location La location dont on souhaite calculer les frais de retard
      * @return double
      * */
-    public double getFraisRetour(Location location){
+    public double getFraisRetour(){
         double total = 0;
         for(Double frais : listeFrais){
             total += frais;
@@ -96,5 +97,13 @@ public class RetourVehicule {
 
     public void setDateRetourVehicule(LocalDateTime dateRetourVehicule) {
         this.dateRetourVehicule = dateRetourVehicule;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

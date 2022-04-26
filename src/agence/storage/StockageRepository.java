@@ -7,6 +7,7 @@ import agence.request.Paiement;
 import agence.request.Reservation;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -20,7 +21,6 @@ public interface StockageRepository {
     void addVehiculeDisponible(Vehicule vehicule);
     Optional<Vehicule> getVehiculeByImmatriculation(String immatriculation);
     Optional<Client> getClientByNumeroPermis(String numeroPermis);
-    void addClient(Client client);
     void sauvegarderLocation(Location location);
     void ajouterPaiement(Paiement paiement);
     boolean isVehiculeDisponible(String immatriculation, LocalDateTime date);
@@ -31,6 +31,7 @@ public interface StockageRepository {
     boolean hasLocationByNumeroPermis(String numeroPermis);
     boolean hasReservationByNumeroPermis(String numeroPermis);
     void deleteReservationClient(Reservation reservation);
-
     void modifierReservation(Reservation reservationClient);
+    void supprimerVehiculeByImmatriculation(String immatriculation);
+    Map<String, Vehicule> getVehiculeRetourne();
 }
