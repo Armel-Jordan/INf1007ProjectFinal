@@ -4,13 +4,14 @@ import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
 import agence.views.ILocationView;
+import agence.views.impl.LocationView;
 
 import java.util.List;
 
 public class RegistreLocation {
 
-    private StockagePersistant stockage;
-    private ILocationView locationView;
+    private StockagePersistant stockage= StockagePersistant.getInstance();
+    private ILocationView locationView= new LocationView();
 
     public Location chargerLocation(String idLocation){
         return stockage.getLocationById(idLocation)
@@ -35,14 +36,17 @@ public class RegistreLocation {
         // demander les informations du véhicule, du client et de la date de fin de location
         location = locationView.saisirInfomationLocation(location);
 
+        // creer la location
+        Location locationCree = new Location(location.getVehicule(), location.getClient(), location.getDateFinPrevueLocation());
+
         // procéder au paiement de la location
-        locationView.procederPaiement(location);
+        locationView.procederPaiement(locationCree);
 
         // sauvegarder la location
-        stockage.sauvegarderLocation(location);
+        stockage.sauvegarderLocation(locationCree);
 
         // terminer l'opération creation de location
-        demarrerLocation(location);
+        demarrerLocation(locationCree);
     }
 
     /**

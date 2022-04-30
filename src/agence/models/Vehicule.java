@@ -92,7 +92,7 @@ public class Vehicule {
                 ", kilometrage=" + kilometrage +
                 ", couleur='" + couleur + '\'' +
                 ", type='" + type + '\'' +
-                ", modele=" + modelVehicule +
+                ", prix=" + prixVehicule +
                 '}';
     }
 

@@ -6,6 +6,7 @@ import agence.storage.StockagePersistant;
 import agence.views.IReservationView;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import java.util.Scanner;
  */
 public class ReservationView implements IReservationView {
 
-    private StockagePersistant stockage;
+    private StockagePersistant stockage= StockagePersistant.getInstance();
 
     // scanner
     private static final Scanner scanner = new Scanner(System.in);
@@ -45,8 +46,10 @@ public class ReservationView implements IReservationView {
 
     @Override
     public LocalDateTime dateReservation() {
-        System.out.println("Entrer la date de la reservation sous la forme : YYYY-MM-DD HH:MM");
-        return LocalDateTime.parse(scanner.nextLine());
+        System.out.println("Entrer la date de la reservation sous la forme : dd/MM/yyyy HH:mm");
+        // format de la date : YYYY-MM-DD HH:MM
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return LocalDateTime.parse(scanner.nextLine(), formatter);
     }
 
     @Override
@@ -127,7 +130,9 @@ public class ReservationView implements IReservationView {
         boolean estDisponible;
         do {
             System.out.println("Entrer l'immatriculation du véhicule : ");
-            immatriculation = scanner.nextLine();
+            // skip nextLine()
+            immatriculation = scanner.nextLine().trim();
+
             if (immatriculation.equals("0")) return;
             Optional<Vehicule> nouvelleVehicule = stockage.getVehiculeByImmatriculation(immatriculation);
 

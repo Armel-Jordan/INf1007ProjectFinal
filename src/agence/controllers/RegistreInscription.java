@@ -3,10 +3,11 @@ package agence.controllers;
 import agence.models.Client;
 import agence.storage.StockagePersistant;
 import agence.views.IInscription;
+import agence.views.impl.InscriptionView;
 
 public class RegistreInscription {
     private StockagePersistant stockage;
-    private IInscription inscriptionView;
+    private IInscription inscriptionView = new InscriptionView();
 
     public RegistreInscription(StockagePersistant stockage) {
         this.stockage = stockage;

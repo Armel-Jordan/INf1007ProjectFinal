@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class InscriptionView implements IInscription {
     private static Scanner scanner = new Scanner(System.in);
-    private StockagePersistant stockage;
+    private StockagePersistant stockage = StockagePersistant.getInstance();
 
     @Override
     public void ajouterInfoClient(Client client) {

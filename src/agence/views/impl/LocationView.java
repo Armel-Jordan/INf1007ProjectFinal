@@ -7,6 +7,7 @@ import agence.request.Paiement;
 import agence.storage.StockagePersistant;
 import agence.views.ILocationView;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class LocationView implements ILocationView {
 
-    private StockagePersistant stockage;
+    private StockagePersistant stockage= StockagePersistant.getInstance();
     private final Scanner scanner = new Scanner(System.in);
 
 
@@ -54,8 +55,8 @@ public class LocationView implements ILocationView {
         System.out.println("Entrez la date de fin de location (format: dd/mm/yyyy)");
         String dateFin = scanner.nextLine();
         // convertir la date de fin en un objet LocalDateTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime dateFinLocalDateTime = LocalDateTime.parse(dateFin, formatter);
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime dateFinLocalDateTime = LocalDate.parse(dateFin, formatter).atStartOfDay();
 
         // setter les informations de la location
         location.setVehicule(vehicule);
@@ -85,10 +86,10 @@ public class LocationView implements ILocationView {
 
     @Override
     public void procederPaiement(Location location) {
-        Paiement paiement = location.getPaiement();
+
         System.out.println("Entrez le numero de le montant du paiement");
         double montant = scanner.nextDouble();
-        paiement.setMontant(montant);
+        Paiement paiement = new Paiement(montant);
 
         stockage.ajouterPaiement(paiement);
 

@@ -34,4 +34,7 @@ public interface StockageRepository {
     void modifierReservation(Reservation reservationClient);
     void supprimerVehiculeByImmatriculation(String immatriculation);
     Map<String, Vehicule> getVehiculeRetourne();
+    void afficherReservation();
+    void afficherLocation();
+    void afficherClient();
 }

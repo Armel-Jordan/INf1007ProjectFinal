@@ -13,7 +13,11 @@ public class Paiement {
     private LocalDateTime date;
     private double montant;
 
-    public Paiement() {}
+    public Paiement() {
+        this.id = UUID.randomUUID().toString();
+        this.date = LocalDateTime.now();
+        this.montant = 0;
+    }
 
     public Paiement(double montant) {
         this.id = UUID.randomUUID().toString();

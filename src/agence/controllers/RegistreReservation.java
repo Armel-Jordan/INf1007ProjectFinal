@@ -5,13 +5,14 @@ import agence.models.Vehicule;
 import agence.request.Reservation;
 import agence.storage.StockagePersistant;
 import agence.views.IReservationView;
+import agence.views.impl.ReservationView;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class RegistreReservation {
-    private StockagePersistant stockage;
-    private IReservationView view;
+    private StockagePersistant stockage= StockagePersistant.getInstance();
+    private IReservationView view=new ReservationView();
 
     /**
      * Methode qui permet d'ajouter la réservation dans le stockage

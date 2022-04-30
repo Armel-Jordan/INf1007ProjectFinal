@@ -52,6 +52,7 @@ public class Location {
      * Methode qui permet de calculer le nombre de kilometrage permit pour la location
      * @return double
      * */
+
     public double calculKilometrageOffert() {
         LocalDateTime dateDebutLocation = LocalDateTime.now();
         // 4 jours de location
@@ -118,14 +119,20 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "dateDebutLocation=" + dateDebutLocation +
+                "idLocation='" + idLocation + '\'' +
+                ", dateDebutLocation=" + dateDebutLocation +
                 ", dateFinPrevueLocation=" + dateFinPrevueLocation +
+                ", dateFinReelleLocation=" + dateFinReelleLocation +
                 ", kilometrageOffert=" + kilometrageOffert +
+                ", kilometrageActuel=" + kilometrageActuel +
                 ", vehicule=" + vehicule +
                 ", client=" + client +
+                ", estEnCours=" + estEnCours +
+                ", montantGarantie=" + montantGarantie +
+                ", prixLocationInitial=" + prixLocationInitial +
+                ", paiement=" + paiement +
                 '}';
     }
-
 
     public String getIdLocation() {
         return idLocation;
