@@ -166,7 +166,8 @@ public class ReservationView implements IReservationView {
             System.out.println("Entrer la nouvelle date de la réservation sous la forme : YYYY-MM-DD HH:MM");
             choix = scanner.nextLine();
             if (choix.equals("0")) return;
-            LocalDateTime nouvelleDate = LocalDateTime.parse(choix);
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime nouvelleDate = LocalDateTime.parse(choix,formatter);
             estDisponible = stockage.isVehiculeDisponible(reservation.getVehicule().getImmatriculation(), nouvelleDate);
             if (!estDisponible) {
                 System.out.println("Le véhicule n'est pas disponible à cette date. Veuillez entrer une date avant celle-ci ("+ reservation.getDate() +")");

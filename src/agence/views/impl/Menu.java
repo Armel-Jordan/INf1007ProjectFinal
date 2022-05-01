@@ -105,9 +105,7 @@ public class Menu implements IMenu {
     }
 
     private void menuPrepose() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez votre choix: ");
-        String choice;
+
         System.out.println("=========== Sous Menu Du Gestionnaire ===========");
         System.out.println("1. Enregistrer Nouveau Client");
         System.out.println("2. Ajouter une location");
@@ -119,7 +117,8 @@ public class Menu implements IMenu {
         System.out.println("8. Afficher la listes des clients");
         System.out.println("0. Quitter");
         System.out.println("==============================");
-                  getChoicePrepose();
+        getChoicePrepose();
+
     }
 
     private void getChoicePrepose(){
