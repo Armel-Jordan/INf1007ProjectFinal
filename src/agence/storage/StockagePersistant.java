@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class StockagePersistant implements StockageRepository{
+public class StockagePersistant implements StockageRepository {
 
     public static Map<String, Client> catalogueClient;
     public static Map<String, Vehicule> catalogueVehicule;
@@ -67,6 +67,7 @@ public class StockagePersistant implements StockageRepository{
         catalogueVehiculeDisponible.put(vehicule.getImmatriculation(), vehicule);
     }
 
+    @Override
     public Map<String, Vehicule> getCatalogueVehicule() {
         return catalogueVehicule;
     }

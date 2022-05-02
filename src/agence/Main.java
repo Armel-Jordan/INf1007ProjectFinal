@@ -11,6 +11,6 @@ public class Main {
     }
 
     private void run() {
-        menuView.show();
+        menuView.getChoiceMenu();
     }
 }

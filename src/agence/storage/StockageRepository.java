@@ -37,4 +37,5 @@ public interface StockageRepository {
     void afficherReservation();
     void afficherLocation();
     void afficherClient();
+    Map<String, Vehicule> getCatalogueVehicule();
 }

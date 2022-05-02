@@ -3,6 +3,7 @@ package agence.views.impl;
 import agence.models.Vehicule;
 import agence.request.Reservation;
 import agence.storage.StockagePersistant;
+import agence.storage.StockageRepository;
 import agence.views.IReservationView;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.Scanner;
  */
 public class ReservationView implements IReservationView {
 
-    private StockagePersistant stockage= StockagePersistant.getInstance();
+    private StockageRepository stockage= StockagePersistant.getInstance();
 
     // scanner
     private static final Scanner scanner = new Scanner(System.in);
@@ -131,6 +132,7 @@ public class ReservationView implements IReservationView {
         do {
             System.out.println("Entrer l'immatriculation du véhicule : ");
             // skip nextLine()
+            scanner.nextLine();
             immatriculation = scanner.nextLine().trim();
 
             if (immatriculation.equals("0")) return;
@@ -150,7 +152,6 @@ public class ReservationView implements IReservationView {
                 reservation.setVehicule(nouvelleVehicule.get());
                 System.out.println("Votre nouveau véhicule est : " + reservation.getVehicule().toString());
             }
-
         } while (!estDisponible);
 
     }
@@ -163,10 +164,12 @@ public class ReservationView implements IReservationView {
         String choix;
         boolean estDisponible;
         do {
-            System.out.println("Entrer la nouvelle date de la réservation sous la forme : YYYY-MM-DD HH:MM");
+            System.out.println("Entrer la nouvelle date de la réservation sous la forme : dd/MM/yyyy HH:mm");
+            scanner.nextLine();
             choix = scanner.nextLine();
             if (choix.equals("0")) return;
-            LocalDateTime nouvelleDate = LocalDateTime.parse(choix);
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime nouvelleDate = LocalDateTime.parse(choix, formatter);
             estDisponible = stockage.isVehiculeDisponible(reservation.getVehicule().getImmatriculation(), nouvelleDate);
             if (!estDisponible) {
                 System.out.println("Le véhicule n'est pas disponible à cette date. Veuillez entrer une date avant celle-ci ("+ reservation.getDate() +")");
