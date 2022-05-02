@@ -30,7 +30,6 @@ public class Menu implements IMenu {
         System.out.println("3. Menu Gestionnaires");
         System.out.println("0. Quitter");
         System.out.println("==============================");
-        //getChoiceMenu();
     }
 
     @Override
