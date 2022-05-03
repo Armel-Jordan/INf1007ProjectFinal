@@ -10,14 +10,14 @@ import java.util.List;
 
 public class RegistreLocation {
 
-    private StockagePersistant stockage= StockagePersistant.getInstance();
-    private ILocationView locationView= new LocationView();
+    private final StockagePersistant stockage= StockagePersistant.getInstance();
+    private final ILocationView locationView= new LocationView();
 
     public Location chargerLocation(String idLocation){
         return stockage.getLocationById(idLocation)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Location avec l'ID %s non trouvée", idLocation)));
+                .orElse(null);
     }
 
     public List<Double> calculerFraisRetard(Location location){
@@ -36,7 +36,11 @@ public class RegistreLocation {
         // demander les informations du véhicule, du client et de la date de fin de location
         location = locationView.saisirInfomationLocation(location);
 
-        // creer la location
+        if(location == null){
+            return;
+        }
+
+        // creation la location
         Location locationCree = new Location(location.getVehicule(), location.getClient(), location.getDateFinPrevueLocation());
 
         // procéder au paiement de la location

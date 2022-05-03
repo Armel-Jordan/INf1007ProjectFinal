@@ -5,26 +5,32 @@ import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
 import agence.views.IRetourVehiculeView;
+import agence.views.impl.RetourVehiculeView;
 
 import java.util.List;
 
 public class RegistreVehicule {
 
-    private StockagePersistant stockage;
-    private IRetourVehiculeView retourVehiculeViews;
-    private RetourVehicule retourVehicule;
-    private Location location;
-    private RegistreLocation registreLocation;
+    private final StockagePersistant stockage = StockagePersistant.getInstance();
+    private final IRetourVehiculeView views = new RetourVehiculeView();
+    private final RegistreLocation registreLocation = new RegistreLocation();
 
     public void creerNouveauRetour() {
-        location = new Location();
-        retourVehicule = new RetourVehicule(location);
+        Location location = new Location();
+        RetourVehicule retourVehicule = new RetourVehicule(location);
 
         // demande d'id de location
-        String idLocation = retourVehiculeViews.demanderIdLocation();
+        String idLocation = views.demanderIdLocation();
 
         // charger la location
         location = registreLocation.chargerLocation(idLocation);
+
+        // verifier si la location existe
+        if(location == null) {
+            views.erreurVehicule();
+            return;
+        }
+
         retourVehicule.setLocation(location);
 
         // calculer les frais retard
@@ -37,20 +43,20 @@ public class RegistreVehicule {
         double fraisRetour = retourVehicule.getFraisRetour();
 
         if(fraisRetour < 0){
-            retourVehiculeViews.afficherAmende(Math.abs(fraisRetour));
+            views.afficherAmende(Math.abs(fraisRetour));
         }
         else {
-            retourVehiculeViews.afficherPrixRetour(fraisRetour);
+            views.afficherPrixRetour(fraisRetour);
         }
 
         // terminer la location
         registreLocation.terminerLocation(location);
-        retourVehiculeViews.signalerFinRetourVehicule();
+        views.signalerFinRetourVehicule();
     }
 
 
     public void retirerVehiculeEndommage(){
-       String immatricule = retourVehiculeViews.demanderImmatriculeEndommage();
+       String immatricule = views.demanderImmatriculeEndommage();
 
        // verifier si le vehicule existe dans la liste des vehicules retournés
        if(!stockage.getVehiculeRetourne().containsKey(immatricule))
@@ -58,7 +64,7 @@ public class RegistreVehicule {
 
        Vehicule vehicule = stockage.getVehiculeRetourne().get(immatricule);
 
-       retourVehiculeViews.demanderDestinationFinale(vehicule);
+       views.demanderDestinationFinale(vehicule);
     }
     private void verifierEtatVehicule(Vehicule vehicule){
 

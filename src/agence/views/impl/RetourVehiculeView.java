@@ -66,9 +66,10 @@ public class RetourVehiculeView implements IRetourVehiculeView {
                     System.out.println("Choix invalide !\n");
             }
         } while (true);
+    }
 
-//        System.out.println("Voulez-vous supprimer la réservation ? (Oui/Non)");
-//        if (scanner.nextLine().trim().equalsIgnoreCase("Non"))
-//            return;
+    @Override
+    public void erreurVehicule() {
+        System.err.println("Le vehicule n'existe pas");
     }
 }

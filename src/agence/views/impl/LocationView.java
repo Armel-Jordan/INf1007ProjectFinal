@@ -32,15 +32,22 @@ public class LocationView implements ILocationView {
         System.out.println("Entrez le numero du permis de conduire du client");
         String numeroPermis = scanner.nextLine();
 
-        // verifier si le client a une location en cours
-        if(stockage.hasLocationByNumeroPermis(numeroPermis))
-            throw new IllegalStateException("Le client a deja une location en cours");
-
         // get client by numero permis
         Client client = stockage.getClientByNumeroPermis(numeroPermis)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Le client avec le numero de permis %s n'existe pas", numeroPermis)));
+                .orElse(null);
+
+        if(client == null){
+            System.err.println("Le client n'existe pas");
+            return null;
+        }
+
+        // verifier si le client a une location en cours
+        if(stockage.hasLocationByNumeroPermis(numeroPermis)){
+            System.out.println("Le client a deja une location en cours");
+            return null;
+        }
 
         // demander les informations la voiture
         String immatriculation = obtenirMatriculationChoisies();
@@ -49,7 +56,12 @@ public class LocationView implements ILocationView {
         Vehicule vehicule = stockage.getVehiculeByImmatriculation(immatriculation)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Le vehicule avec l'ID %s n'existe pas", immatriculation)));
+                .orElse(null);
+
+        if(vehicule == null){
+            System.err.println("Le vehicule n'existe pas");
+            return null;
+        }
 
         // demander la date de Fin de location
         System.out.println("Entrez la date de fin de location (format: dd/mm/yyyy)");

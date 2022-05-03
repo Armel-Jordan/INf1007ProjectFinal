@@ -49,11 +49,9 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "numeroMunicipal='" + numeroMunicipal + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+        return "\n\t\t\t- Numero Municipal : " + numeroMunicipal +
+                "\n\t\t\t- street : " + street +
+                "\n\t\t\t- city : " + city +
+                "\n\t\t\t- zip : " + zip;
     }
 }

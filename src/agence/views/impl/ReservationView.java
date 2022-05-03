@@ -17,9 +17,10 @@ import java.util.Scanner;
  * @version 1.0
  * @since 2022-04-20
  */
+
 public class ReservationView implements IReservationView {
 
-    private StockagePersistant stockage= StockagePersistant.getInstance();
+    private final StockagePersistant stockage = StockagePersistant.getInstance();
 
     // scanner
     private static final Scanner scanner = new Scanner(System.in);
@@ -54,7 +55,7 @@ public class ReservationView implements IReservationView {
 
     @Override
     public void erreurReservation(Reservation reservation) {
-        System.out.printf("La réservation pour le véhicule %s ne peut être effectué à la date %s.\n",
+        System.err.printf("La réservation pour le véhicule %s ne peut être effectué à la date %s.\n",
                 reservation.getVehicule().getImmatriculation(), reservation.getDate().toString());
     }
 
@@ -66,8 +67,14 @@ public class ReservationView implements IReservationView {
 
     @Override
     public Reservation modificationReservation(Reservation reservationClient) {
-        System.out.println("Voici les informations de la réservation : ");
-        System.out.println(reservationClient.toString());
+
+        if (reservationClient == null) {
+            System.err.println("Aucune réservation trouvée pour ce client.");
+            return null;
+        }
+
+        System.out.println("Voici les informations de votre réservation actuelle : ");
+        System.out.println(reservationClient);
 
         System.out.println("Voulez-vous modifier la réservation ? (Oui/Non)");
         if (scanner.nextLine().trim().equalsIgnoreCase("Non"))
@@ -78,8 +85,15 @@ public class ReservationView implements IReservationView {
 
     @Override
     public void suppressionReservation(Reservation reservationClient) {
+
+        // si la réservation est null, on affiche un message d'erreur
+        if (reservationClient == null) {
+            System.err.println("La réservation n'existe pas pour ce numéro de permis.");
+            return;
+        }
+
         System.out.println("Voici les informations de la réservation : ");
-        System.out.println(reservationClient.toString());
+        System.out.println(reservationClient);
 
         System.out.println("Voulez-vous supprimer la réservation ? (Oui/Non)");
         if (scanner.nextLine().trim().equalsIgnoreCase("Non"))
@@ -89,31 +103,43 @@ public class ReservationView implements IReservationView {
         System.out.println("La réservation a été supprimée.");
     }
 
+    @Override
+    public void erreurClient() {
+        System.err.println("Aucun client trouvé pour ce numéro de permis.");
+    }
+
+    @Override
+    public void erreurVehicule() {
+        System.err.println("Aucun véhicule trouvé pour cet immatriculation.");
+    }
+
     /**
      * Menu de modification de la réservation
      * @param reservation la réservation à modifier
      * */
     private Reservation menuModificationReservation(Reservation reservation) {
+        boolean continuer = true;
         do {
             System.out.println("1. Modifier la date de la réservation");
             System.out.println("2. Modifier le véhicule");
-            System.out.println("3. Retour");
-            int choix = scanner.nextInt();
+            System.out.println("0. Retour");
+            String choix = scanner.nextLine();
             switch (choix) {
-                case 1:
+                case "1":
                     choixDateReservation(reservation);
                     break;
-                case 2:
+                case "2":
                     choixVehicule(reservation);
                     break;
-                case 3:
-                    System.out.println(" AU Revoir !");
+                case "0":
+                    continuer = false;
                     break;
                 default:
                     System.out.println("Choix invalide !\n");
             }
-        } while (true);
+        } while (continuer);
 
+        return reservation;
     }
 
     /**
@@ -129,8 +155,9 @@ public class ReservationView implements IReservationView {
         String immatriculation;
         boolean estDisponible;
         do {
-            System.out.println("Entrer l'immatriculation du véhicule : ");
+            System.out.println("Entrer l'immatriculation du nouveau véhicule : ");
             // skip nextLine()
+            //scanner.nextLine();
             immatriculation = scanner.nextLine().trim();
 
             if (immatriculation.equals("0")) return;
@@ -146,9 +173,9 @@ public class ReservationView implements IReservationView {
                 System.out.println("ce véhicule n'est pas disponible, veuillez en choisir un autre");
                 System.out.println("Sinon Tapez 0 pour quitter");
             }
-            else{
+            else {
                 reservation.setVehicule(nouvelleVehicule.get());
-                System.out.println("Votre nouveau véhicule est : " + reservation.getVehicule().toString());
+                System.out.println("Votre nouveau véhicule est : \n" + reservation.getVehicule().toString());
             }
 
         } while (!estDisponible);

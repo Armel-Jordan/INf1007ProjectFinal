@@ -16,4 +16,6 @@ public interface IRetourVehiculeView {
     String demanderImmatriculeEndommage();
 
     void demanderDestinationFinale(Vehicule vehicule);
+
+    void erreurVehicule();
 }

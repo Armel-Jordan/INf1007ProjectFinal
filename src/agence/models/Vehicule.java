@@ -87,11 +87,12 @@ public class Vehicule {
 
     @Override
     public String toString() {
-        return "\timmatriculation : " + immatriculation +
-                "\n\tkilometrage : " + kilometrage +
-                "\n\tcouleur : " + couleur +
-                "\n\ttype : " + type +
-                "\n\tprix : " + prixVehicule + "$\n";
+        return "(*) Vehicule : " +
+                "\n\t- Immatriculation : " + immatriculation +
+                "\n\t- kilometrage : " + kilometrage +
+                "\n\t- couleur : " + couleur +
+                "\n\t- type : " + type +
+                "\n\t- prix : " + prixVehicule + "$\n";
     }
 
     public double getPrixVehicule() {

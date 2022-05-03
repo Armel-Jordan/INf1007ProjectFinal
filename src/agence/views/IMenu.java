@@ -7,5 +7,5 @@ package agence.views;
  */
 public interface IMenu {
     void show();
-    void getChoiceMenu();
+    void getMenu();
 }

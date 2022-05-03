@@ -54,9 +54,9 @@ public class Conductor {
 
     @Override
     public String toString() {
-        return "Conducteur : \n" +
-                "\tnom = '" + nom + "'\n" +
-                "\tprenom = '" + prenom + "'\n" +
-                "\tnumPermisConduire=" + numPermisConduire;
+        return "\n\t\t\t(*)\tConducteur : \n" +
+                "\t\t\t\t\t- Nom : " + nom + "\n" +
+                "\t\t\t\t\t- Prenom : " + prenom + "\n" +
+                "\t\t\t\t\t- Numero de Permis de Conduire : " + numPermisConduire + "\n";
     }
 }

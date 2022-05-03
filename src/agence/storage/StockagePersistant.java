@@ -107,7 +107,7 @@ public class StockagePersistant implements StockageRepository {
                 .values()
                 .stream()
                 .noneMatch(r -> r.getVehicule().getImmatriculation().equals(immatriculation)
-                        && r.getDate().isBefore(date));
+                        && (r.getDate().isBefore(date) || r.getDate().isEqual(date)));
     }
 
     @Override
@@ -188,6 +188,11 @@ public class StockagePersistant implements StockageRepository {
 
     @Override
     public void afficherClient() {
+        if (catalogueClient.isEmpty()) {
+            System.out.println("Aucun client n'est enregistré");
+            return;
+        }
+
         catalogueClient.values().forEach(System.out::println);
     }
 

@@ -8,6 +8,7 @@ import agence.views.IReservationView;
 import agence.views.impl.ReservationView;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class RegistreReservation {
@@ -20,10 +21,13 @@ public class RegistreReservation {
     public void ajoutReservation(){
         Reservation reservation = new Reservation();
 
-        associerClientReservation(reservation);
+        if (!associerClientReservation(reservation))
+            return;
 
        do {
-           associerVehiculeReservation(reservation);
+           if(!associerVehiculeReservation(reservation))
+               break;
+
            ajouterDateReservation(reservation);
 
            if(!peutReservationDate(reservation)){
@@ -32,10 +36,12 @@ public class RegistreReservation {
                // possibilité de sortir de la boucle
                if(view.sortir()) return;
            }
+           else {
+               stockage.ajouterReservation(reservation);
+               return;
+           }
 
        } while(!peutReservationDate(reservation));
-
-       stockage.ajouterReservation(reservation);
     }
 
 
@@ -43,20 +49,22 @@ public class RegistreReservation {
      * Methode qui permet de modifier une reservation
      * */
     public void modifierReservation(){
-        Reservation reservation = new Reservation();
+        Reservation reservation;
         String numeroPermis = recupererNumeroPermis();
 
-        // verifier si le client a une reservation en cours
-        if(!stockage.hasReservationByNumeroPermis(numeroPermis))
-            throw new RuntimeException(String.format("Le client %s n'a pas de réservation en cours", numeroPermis));
+        try{
+            if(!stockage.hasReservationByNumeroPermis(numeroPermis))
+                view.modificationReservation(null);
 
-        // charger la reservation du client
-        Reservation reservationClient = chargerReservationClient(numeroPermis);
-
-        reservationClient = view.modificationReservation(reservationClient);
-
-        // terminer la modification
-        terminerModificationReservationClient(reservationClient);
+            else {
+                reservation = chargerReservationClient(numeroPermis);
+                view.modificationReservation(reservation);
+                terminerModificationReservationClient(reservation);
+            }
+        }
+        catch (NoSuchElementException e){
+            System.out.println("Le client n'a pas de réservation en cours");
+        }
     }
 
     private void terminerModificationReservationClient(Reservation reservationClient) {
@@ -70,13 +78,18 @@ public class RegistreReservation {
         String numeroPermis = recupererNumeroPermis();
 
         // verifier si le client a une reservation en cours
-        if(!stockage.hasReservationByNumeroPermis(numeroPermis))
-            throw new RuntimeException(String.format("Le client %s n'a pas de réservation en cours", numeroPermis));
+        try {
+            if(!stockage.hasReservationByNumeroPermis(numeroPermis))
+                view.suppressionReservation(null);
 
-        // charger la reservation du client
-        Reservation reservationClient = chargerReservationClient(numeroPermis);
-
-        view.suppressionReservation(reservationClient);
+            else {
+                Reservation reservationClient = chargerReservationClient(numeroPermis);
+                view.suppressionReservation(reservationClient);
+            }
+        }
+        catch (NoSuchElementException e){
+            System.out.println("Le client n'a pas de réservation en cours");
+        }
     }
 
     /**
@@ -101,28 +114,40 @@ public class RegistreReservation {
      * Méthode qui permet d'associer le véhicule à la reservation
      * @param reservation @Reservation la reservation à associer
      * */
-    private void associerVehiculeReservation(Reservation reservation) {
+    private boolean associerVehiculeReservation(Reservation reservation) {
         String immatriculation = recupererVehiculeChoisi();
         Vehicule vehicule = stockage.getVehiculeByImmatriculation(immatriculation)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Le vehicule avec l'immatriculation %s n'existe pas dans le système", immatriculation)));
+                .orElse(null);
+
+        if(vehicule == null) {
+            view.erreurVehicule();
+            return false;
+        }
 
         reservation.setVehicule(vehicule);
+        return true;
     }
 
     /**
      * Méthode qui permet d'associer le client à la reservation
      * @param reservation @Reservation la reservation à associer
      * */
-    private void associerClientReservation(Reservation reservation) {
+    private boolean associerClientReservation(Reservation reservation) {
         String numeroPermis = recupererNumeroPermis();
         Client client = verifierNumeroPermis(numeroPermis)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Le client avec le Numero de Permis %s n'existe pas dans le système", numeroPermis)));
+                .orElse(null);
+
+        if (client == null) {
+            view.erreurClient();
+            return false;
+        }
 
         reservation.setClient(client);
+        return true;
     }
 
     /**

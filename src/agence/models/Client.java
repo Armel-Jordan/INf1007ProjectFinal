@@ -89,14 +89,13 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "numeroPermis=" + numPermisConduire +
-                ", idClient=" + idClient +
-                ", adresse='" + adresse + '\'' +
-                ", numTelephone=" + numTelephone +
-                ", numCarteCredit=" + numCarteCredit +
-                ", conducteursAccompagnants=" + conducteursAccompagnants +
-                '}';
+        return "(*)\tClient : " +
+                "\n\t\t- numero de Permis : " + numPermisConduire +
+                "\n\t\t- idClient : " + idClient +
+                "\n\t\t- adresse : " + adresse +
+                "\n\t\t- Numero Telephone : " + numTelephone +
+                "\n\t\t- Numero Carte de Credit : " + numCarteCredit +
+                "\n\t\t- conducteurs Accompagnants : " + conducteursAccompagnants;
     }
 
     public String getNom() {

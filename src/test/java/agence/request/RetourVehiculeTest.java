@@ -108,7 +108,7 @@ class RetourVehiculeTest {
         retourVehicule.calculerFraisRetard();
 
         // assert
-        assertEquals(190.0d, retourVehicule.getFraisRetour());
+        assertEquals(125.0d, retourVehicule.getFraisRetour());
     }
 
     /**

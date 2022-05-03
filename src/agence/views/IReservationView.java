@@ -18,4 +18,8 @@ public interface IReservationView {
     boolean sortir();
     Reservation modificationReservation(Reservation reservationClient);
     void suppressionReservation(Reservation reservationClient);
+
+    void erreurClient();
+
+    void erreurVehicule();
 }

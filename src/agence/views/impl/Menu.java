@@ -33,7 +33,7 @@ public class Menu implements IMenu {
     }
 
     @Override
-    public void getChoiceMenu() {
+    public void getMenu() {
         Scanner scanner = new Scanner(System.in);
         String choice;
         do {
@@ -86,9 +86,11 @@ public class Menu implements IMenu {
             // switch choice
             switch (choice) {
                 case "1":
-                    System.out.println("\n=========== Liste des véhicules ===========");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==============================================");
+                    System.out.println("============= LISTE DES VEHICULES ============");
+                    System.out.println("==============================================" + ConsoleColors.WHITE_BOLD_BRIGHT );
                     stockagePersistant.getCatalogueVehicule().values().forEach(System.out::println);
-                    System.out.println("=========================================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "=========================================" + ConsoleColors.RESET);
                     break;
                 case "0":
                     return;
@@ -110,13 +112,12 @@ public class Menu implements IMenu {
         System.out.println("7. Afficher la liste des locations");
         System.out.println("8. Afficher la listes des clients");
         System.out.println("0. Quitter");
-        System.out.println("==============================");
+        System.out.println("================================");
     }
 
     private void getChoicePrepose(){
         // afficher le menu Propose
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Entrez votre choix: ");
         String choice;
         do {
             menuPrepose();
@@ -125,50 +126,66 @@ public class Menu implements IMenu {
             // switch choice
             switch (choice) {
                 case "1":
-                    System.out.println("1. Enregistrer un nouveau client");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n=======================================================");
+                    System.out.println("========= ENREGISTREMENT D'UN NOUVEAU CLIENT ==========");
+                    System.out.println("=======================================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     registreInscription.inscriptionClient();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "========================================================" + ConsoleColors.RESET);
                     break;
                 case "2":
-                    System.out.println("2. Ajouter une location");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n=========================================");
+                    System.out.println("========= AJOUTER UNE LOCATION ==========");
+                    System.out.println("=========================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     registreLocation.creationLocation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "=========================================" + ConsoleColors.RESET);
                     break;
                 case "3":
-                    System.out.println("3. Ajouter une réservation");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n============================================");
+                    System.out.println("========= AJOUTER UNE RESERVATION ==========");
+                    System.out.println("============================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     registreReservation.ajoutReservation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "============================================" + ConsoleColors.RESET);
                     break;
                 case "4":
-                    System.out.println("4. Modifier une réservation");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==============================================");
+                    System.out.println("========= MODIFIER UNE RESERVATION ===========");
+                    System.out.println("==============================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     registreReservation.modifierReservation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "==============================================" + ConsoleColors.RESET);
                     break;
                 case "5":
-                    System.out.println("5. Supprimer une réservation");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==================================================");
+                    System.out.println("========= SUPPRESSION D'UNE RESERVATION ==========");
+                    System.out.println("==================================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     registreReservation.supprimerReservation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "==================================================" + ConsoleColors.RESET);
                     break;
                 case "6":
-                    System.out.println("6. Afficher la liste des réservations");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n===========================================");
+                    System.out.println("========= LISTE DES RESERVATIONS ==========");
+                    System.out.println("===========================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     stockagePersistant.afficherReservation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "===========================================" + ConsoleColors.RESET);
                     break;
                 case "7":
-                    System.out.println("7. Afficher la liste des locations");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n========================================");
+                    System.out.println("========= LISTE DES LOCATIONS ==========");
+                    System.out.println("========================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     stockagePersistant.afficherLocation();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "========================================" + ConsoleColors.RESET);
                     break;
                 case "8":
-                    System.out.println("8. Afficher la listes des clients");
-                    System.out.println("==============================");
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n======================================");
+                    System.out.println("========= LISTE DES CLIENTS ==========");
+                    System.out.println("======================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     stockagePersistant.afficherClient();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "======================================" + ConsoleColors.RESET);
                     break;
                 case "0":
                     return;
                 default:
                     System.out.println("Veuillez entrer un chiffre entre 0 et 8");
-                    System.out.println("==============================");
+                    System.out.println("================================");
                     break;
             }
         } while(true);
