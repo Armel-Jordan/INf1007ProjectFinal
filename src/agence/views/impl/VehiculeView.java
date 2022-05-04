@@ -59,7 +59,6 @@ public class VehiculeView implements IVehiculeView {
         // creation du model
         modelVehicule = creationModel();
 
-//        vehicule = new Vehicule(immatriculation, couleur, type, prixVehicule);
         vehicule.setImmatriculation(immatriculation);
         vehicule.setCouleur(couleur);
         vehicule.setType(type);

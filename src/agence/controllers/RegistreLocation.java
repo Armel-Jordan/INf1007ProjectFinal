@@ -1,6 +1,5 @@
 package agence.controllers;
 
-import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
@@ -8,7 +7,6 @@ import agence.views.ILocationView;
 import agence.views.impl.LocationView;
 
 import java.util.List;
-import java.util.Map;
 
 public class RegistreLocation {
 
