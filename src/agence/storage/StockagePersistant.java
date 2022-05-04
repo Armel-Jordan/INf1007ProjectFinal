@@ -1,9 +1,6 @@
 package agence.storage;
 
-import agence.models.Client;
-import agence.models.ModelVehicule;
-import agence.models.TypeVehicule;
-import agence.models.Vehicule;
+import agence.models.*;
 import agence.request.Location;
 import agence.request.Paiement;
 import agence.request.Reservation;
@@ -41,8 +38,7 @@ public class StockagePersistant implements StockageRepository {
     public StockagePersistant() {
         catalogueReservationEnCours = new HashMap<>();
         cataloguePaiement = new HashMap<>();
-        catalogueClient = new HashMap<>();
-        catalogueVehicule = new HashMap<>();
+        catalogueClient = initClient();
         catalogueLocation = new HashMap<>();
         catalogueReservation = new HashMap<>();
         catalogueClientRetardataire = new HashMap<>();
@@ -52,7 +48,19 @@ public class StockagePersistant implements StockageRepository {
         catalogueVehiculeRepare = new HashMap<>();
         catalogueVehiculeRetire = new HashMap<>();
         typesVehicule = initTypesVehicule();
-        initVehicule();
+        catalogueVehicule = initVehicule();
+    }
+
+    private Map<String, Client> initClient() {
+        Map<String, Client> catalogueClient = new HashMap<>();
+        Address address = new Address("3351", "Boulevard des Forges", "Trois-Rivières", "G8Z 3C9");
+        Client client1 = new Client("Lubaki", "Josue", "UQTR-1", address, "819 111 0000", "4345123456789");
+        Client client2 = new Client("Kanyinda", "Jonathan", "UQTR-2", address, "819 111 0000", "4340123456789");
+        Client client3 = new Client("Kuibia", "Jordan", "UQTR-3", address, "819 411 0000", "4340123336789");
+        catalogueClient.put(client1.getNumPermisConduire(), client1);
+        catalogueClient.put(client2.getNumPermisConduire(), client2);
+        catalogueClient.put(client3.getNumPermisConduire(), client3);
+        return catalogueClient;
     }
 
     private HashSet<TypeVehicule> initTypesVehicule() {
@@ -120,12 +128,12 @@ public class StockagePersistant implements StockageRepository {
 
     @Override
     public Optional<Vehicule> getVehiculeByImmatriculation(String immatriculation) {
-        return Optional.ofNullable(catalogueVehicule.get(immatriculation));
+        return Optional.of(catalogueVehicule.get(immatriculation));
     }
 
     @Override
     public Optional<Client> getClientByNumeroPermis(String numeroPermis) {
-        return Optional.ofNullable(catalogueClient.get(numeroPermis));
+        return Optional.of(catalogueClient.get(numeroPermis));
     }
 
     @Override
@@ -240,12 +248,15 @@ public class StockagePersistant implements StockageRepository {
         StockagePersistant.catalogueReservation = catalogueReservation;
     }
 
-    private void initVehicule() {
+    private Map<String, Vehicule> initVehicule() {
         Vehicule vehicule1 =new Vehicule("IMM1", "Noir", new ArrayList<>(typesVehicule).get(0), 100);
         vehicule1.setModele(new ModelVehicule("Audi", 4));
         Vehicule vehicule2 =new Vehicule("IMM2", "Bleu", new ArrayList<>(typesVehicule).get(0), 120);
         vehicule2.setModele(new ModelVehicule("Renault", 4));
-        catalogueVehicule.put(vehicule1.getImmatriculation(), vehicule1);
-        catalogueVehicule.put(vehicule2.getImmatriculation(), vehicule2);
+
+        return new HashMap<>() {{
+            put(vehicule1.getImmatriculation(), vehicule1);
+            put(vehicule2.getImmatriculation(), vehicule2);
+        }};
     }
 }

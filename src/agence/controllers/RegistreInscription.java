@@ -1,17 +1,14 @@
 package agence.controllers;
 
 import agence.models.Client;
+import agence.storage.StockagePersistant;
 import agence.storage.StockageRepository;
 import agence.views.IInscription;
 import agence.views.impl.InscriptionView;
 
 public class RegistreInscription {
-    private StockageRepository stockage;
-    private IInscription inscriptionView = new InscriptionView();
-
-    public RegistreInscription(StockageRepository stockage) {
-        this.stockage = stockage;
-    }
+    private final StockageRepository stockage = StockagePersistant.getInstance();
+    private final IInscription inscriptionView = new InscriptionView();
 
     public void inscriptionClient() {
         Client client = new Client();

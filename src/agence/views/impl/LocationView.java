@@ -5,6 +5,7 @@ import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.Paiement;
 import agence.storage.StockagePersistant;
+import agence.storage.StockageRepository;
 import agence.tools.ConsoleColors;
 import agence.views.ILocationView;
 
@@ -20,9 +21,8 @@ import java.util.Scanner;
  */
 public class LocationView implements ILocationView {
 
-    private final StockagePersistant stockage= StockagePersistant.getInstance();
+    private final StockageRepository stockage = StockagePersistant.getInstance();
     private final Scanner scanner = new Scanner(System.in);
-
 
     @Override
     public Location saisirInfomationLocation(Location location) {

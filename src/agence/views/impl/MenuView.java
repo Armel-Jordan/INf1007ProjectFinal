@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class MenuView implements IMenuView {
 
     private final StockageRepository stockagePersistant = StockagePersistant.getInstance();
-    private final RegistreInscription registreInscription = new RegistreInscription(stockagePersistant);
+    private final RegistreInscription registreInscription = new RegistreInscription();
     private final RegistreLocation registreLocation = new RegistreLocation();
     private final RegistreReservation registreReservation = new RegistreReservation();
     private final RegistreVehicule registreVehicule = new RegistreVehicule();
