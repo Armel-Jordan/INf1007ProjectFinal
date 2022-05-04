@@ -114,7 +114,7 @@ public class ReservationView implements IReservationView {
     }
 
     /**
-     * Menu de modification de la réservation
+     * MenuView de modification de la réservation
      * @param reservation la réservation à modifier
      * */
     private Reservation menuModificationReservation(Reservation reservation) {
@@ -143,7 +143,7 @@ public class ReservationView implements IReservationView {
     }
 
     /**
-     * Menu de la modification de la vehicule
+     * MenuView de la modification de la vehicule
      * @param reservation la reservation a modifier
      * */
     private void choixVehicule(Reservation reservation) {

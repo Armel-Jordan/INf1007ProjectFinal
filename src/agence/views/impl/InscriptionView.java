@@ -15,8 +15,8 @@ import java.util.Scanner;
  * @since 2022-04-25
  */
 public class InscriptionView implements IInscription {
-    private static Scanner scanner = new Scanner(System.in);
-    private StockagePersistant stockage = StockagePersistant.getInstance();
+    private static final Scanner scanner = new Scanner(System.in);
+    private final StockagePersistant stockage = StockagePersistant.getInstance();
 
     @Override
     public void ajouterInfoClient(Client client) {
@@ -72,11 +72,27 @@ public class InscriptionView implements IInscription {
             numeroCarteCredit = scanner.nextLine();
         } while (numeroCarteCredit.isEmpty());
 
+        Address adresse = ajoutInfoAdresse();
+
+        // setter les valeurs du client
+        client.setNumPermisConduire(numeroPermis);
+        client.setNom(nom);
+        client.setPrenom(prenom);
+        client.setNumTelephone(numeroTelephone);
+        client.setNumCarteCredit(numeroCarteCredit);
+        client.setAdresse(adresse);
+    }
+
+    private Address ajoutInfoAdresse() {
+        Address adresse = new Address();
+
+        String ville;
+        String numeroMunicipale;
+        String nomRue;
+        String zip;
         System.out.println("===================================================");
         System.out.println("========  Veuillez entrer votre adresse  ==========");
         System.out.println("===================================================\n");
-        Address adresse = new Address();
-
 
         do {
             // demander le numero municipale
@@ -84,20 +100,17 @@ public class InscriptionView implements IInscription {
             numeroMunicipale = scanner.nextLine();
         } while (numeroMunicipale.isEmpty());
 
-
         do {
             // demander le nom de rue
             System.out.println("Veuillez entrer votre nom de rue");
             nomRue = scanner.nextLine();
         } while (nomRue.isEmpty());
 
-
         do {
             // demander la ville
             System.out.println("Veuillez entrer votre ville");
             ville = scanner.nextLine();
         } while (ville.isEmpty());
-
 
         do {
             // demander le code postal
@@ -111,13 +124,7 @@ public class InscriptionView implements IInscription {
         adresse.setCity(ville);
         adresse.setZip(zip);
 
-        // setter les valeurs du client
-        client.setNumPermisConduire(numeroPermis);
-        client.setNom(nom);
-        client.setPrenom(prenom);
-        client.setNumTelephone(numeroTelephone);
-        client.setNumCarteCredit(numeroCarteCredit);
-        client.setAdresse(adresse);
+        return adresse;
     }
 
     @Override

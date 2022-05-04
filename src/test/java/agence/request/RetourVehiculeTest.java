@@ -18,7 +18,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour - happy path avec retour complete de la garantie")
     void testCalculerFraisRetard() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client() ,LocalDateTime.now().plusDays(1));
         RetourVehicule retourVehicule = new RetourVehicule(location);
         retourVehicule.calculerFraisRetard();
@@ -33,7 +33,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour - dépassement X2 des kilometrages offerts")
     void testCalculerFraisRetard2() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client() ,LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(200);
         RetourVehicule retourVehicule = new RetourVehicule(location);
@@ -49,7 +49,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour - vehicule avec 150km initial - dépassement des kilometrages offerts")
     void testCalculerFraisRetard3() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         vehicule.setKilometrage(150);
         Location location = new Location(vehicule, new Client() ,LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(350);
@@ -66,7 +66,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour avec retard d'une journée")
     void testCalculerFraisRetard4() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client(), LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(75);
         location.setDateFinReelleLocation(location.getDateFinPrevueLocation().plusDays(1));
@@ -83,7 +83,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour avec retard d'une journée et un dépassement de kilometrage")
     void testCalculerFraisRetard5() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client(), LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(200);
         location.setDateFinReelleLocation(location.getDateFinPrevueLocation().plusDays(1));
@@ -100,7 +100,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("calcul de frais retour pour un retour faite dans la journée prévue mais avec un retard de 5 hours")
     void testCalculerFraisRetard6() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client(), LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(75);
         location.setDateFinReelleLocation(location.getDateFinPrevueLocation().plusHours(5));
@@ -117,7 +117,7 @@ class RetourVehiculeTest {
     @Test
     @DisplayName("Happy path - calcul de frais retour pour un retour faite dans la journée prévue et un peu plus tôt que prévue")
     void testCalculerFraisRetard7() {
-        Vehicule vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 100);
+        Vehicule vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 100);
         Location location = new Location(vehicule, new Client(), LocalDateTime.now().plusDays(1));
         location.getVehicule().setKilometrage(75);
         location.setDateFinReelleLocation(location.getDateFinPrevueLocation().minusHours(5));

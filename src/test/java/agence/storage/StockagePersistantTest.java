@@ -35,8 +35,8 @@ class StockagePersistantTest {
         stockagePersistant = new StockagePersistant();
         catalogueLocation = new HashMap<>();
         catalogueReservation = new HashMap<>();
-        vehicule = new Vehicule("IMM", "Blue", TypeVehicule.SIMPLE, 120);
-        vehicule2 = new Vehicule("IMM2", "Blue", TypeVehicule.SIMPLE, 120);
+        vehicule = new Vehicule("IMM", "Blue", new TypeVehicule("Audi"), 120);
+        vehicule2 = new Vehicule("IMM2", "Blue", new TypeVehicule("Audi"), 120);
         location = new Location();
         location2 = new Location();
         client = new Client();

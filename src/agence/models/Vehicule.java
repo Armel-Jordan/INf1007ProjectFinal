@@ -21,6 +21,17 @@ public class Vehicule {
         this.estDisponible = true;
     }
 
+    //constructeur vide
+    public Vehicule() {
+        this.immatriculation = "";
+        this.prixVehicule = 0;
+        this.kilometrage = 0;
+        this.couleur = "";
+        this.type = null;
+        this.estEndommage = false;
+        this.estDisponible = true;
+    }
+
     public String getImmatriculation() {
         return immatriculation;
     }
@@ -92,7 +103,8 @@ public class Vehicule {
                 "\n\t- kilometrage : " + kilometrage +
                 "\n\t- couleur : " + couleur +
                 "\n\t- type : " + type +
-                "\n\t- prix : " + prixVehicule + "$\n";
+                "\n\t- modele : " + modelVehicule +
+                "\n\t- prix : " + prixVehicule + " $\n";
     }
 
     public double getPrixVehicule() {

@@ -1,11 +1,11 @@
 package agence;
 
-import agence.views.IMenu;
-import agence.views.impl.Menu;
+import agence.views.IMenuView;
+import agence.views.impl.MenuView;
 
 public class Main {
 
-    private final IMenu menuView = new Menu();
+    private final IMenuView menuView = new MenuView();
     public static void main(String[] args) {
         new Main().run();
     }

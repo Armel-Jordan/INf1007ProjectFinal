@@ -3,10 +3,12 @@ package agence.views.impl;
 import agence.controllers.RegistreInscription;
 import agence.controllers.RegistreLocation;
 import agence.controllers.RegistreReservation;
+import agence.controllers.RegistreVehicule;
+import agence.models.Vehicule;
 import agence.storage.StockagePersistant;
 import agence.storage.StockageRepository;
 import agence.tools.ConsoleColors;
-import agence.views.IMenu;
+import agence.views.IMenuView;
 
 import java.util.Scanner;
 
@@ -15,12 +17,15 @@ import java.util.Scanner;
  * @version 1.0
  * @since 2022-04-29
  */
-public class Menu implements IMenu {
+public class MenuView implements IMenuView {
 
     private final StockageRepository stockagePersistant = StockagePersistant.getInstance();
     private final RegistreInscription registreInscription = new RegistreInscription(stockagePersistant);
     private final RegistreLocation registreLocation = new RegistreLocation();
     private final RegistreReservation registreReservation = new RegistreReservation();
+    private final RegistreVehicule registreVehicule = new RegistreVehicule();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static String choice;
 
     @Override
     public void show() {
@@ -34,8 +39,6 @@ public class Menu implements IMenu {
 
     @Override
     public void getMenu() {
-        Scanner scanner = new Scanner(System.in);
-        String choice;
         do {
             show();
             System.out.print("Entrez votre choix: ");
@@ -49,8 +52,7 @@ public class Menu implements IMenu {
                     getMenuClient();
                     break;
                 case "3":
-                    System.out.println("=========== Menu Gestionnaires ===========");
-                    menuGestionnaire();
+                    getChoiceGestionnaire();
                     break;
                 case "0":
                     return;
@@ -62,11 +64,86 @@ public class Menu implements IMenu {
     }
 
     private void menuGestionnaire() {
-        System.out.println("=========== Sous Menu Du Gestionnaire ===========");
+        System.out.println("\n\n=========== Menu Gestionnaire ===========");
         System.out.println("1. Saisir Nouveau Véhicule");
         System.out.println("2. Retrait d'un Véhicule");
+        System.out.println("3. Consulter la liste des véhicules Retournes");
+        System.out.println("4. Consulter la liste des véhicules À Réparer");
+        System.out.println("5. Consulter la liste des véhicules Retirées du système");
         System.out.println("0. Quitter");
         System.out.println("==============================");
+    }
+
+    private void getChoiceGestionnaire(){
+        do {
+            menuGestionnaire();
+            System.out.print("Entrez votre choix: ");
+            choice = scanner.nextLine();
+            // switch choice
+            switch (choice) {
+                case "1":
+                    saisirNouveauVehicule();
+                    break;
+                case "2":
+                    retirerVehicule();
+                    break;
+                case "3":
+                    afficherVehiculeRetournes();
+                    break;
+                case "4":
+                    afficherVehiculeRepare();
+                    break;
+                case "5":
+                    afficherVehiculeRetires();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Veuillez entrer un choix valide");
+                    break;
+            }
+        } while (true);
+    }
+
+    private void afficherVehiculeRetires() {
+        System.out.println("\n\n=========== Liste des véhicules Retirés du système ===========");
+        if (stockagePersistant.getCatalogueVehiculeRetires().isEmpty()) {
+            System.out.println(ConsoleColors.GREEN_BOLD + "\t\t\tAucun véhicule n'a été retiré du système" + ConsoleColors.RESET);
+        }
+        for (Vehicule v : stockagePersistant.getCatalogueVehiculeRetires().values()) {
+            System.out.println(v);
+        }
+        System.out.println("==============================================================");
+    }
+
+    private void afficherVehiculeRepare() {
+        System.out.println("\n\n=========== Liste des véhicules Reparés du système ===========");
+        if (stockagePersistant.getCatalogueVehiculeRepare().isEmpty()) {
+            System.out.println(ConsoleColors.GREEN_BOLD + "\t\t\t\tAucun véhicule à réparer" + ConsoleColors.RESET);
+        }
+        for (Vehicule v : stockagePersistant.getCatalogueVehiculeRepare().values()) {
+            System.out.println(v);
+        }
+        System.out.println("==============================================================");
+    }
+
+    private void afficherVehiculeRetournes() {
+        System.out.println("\n\n=========== Liste des véhicules Retournés du système ===========");
+        if (stockagePersistant.getVehiculeRetourne().isEmpty()) {
+            System.out.println(ConsoleColors.GREEN_BOLD + "\t\t\tAucun véhicule n'a été retourné du système" + ConsoleColors.RESET);
+        }
+        for (Vehicule v : stockagePersistant.getVehiculeRetourne().values()) {
+            System.out.println(v);
+        }
+        System.out.println("==============================================================");
+    }
+
+    private void retirerVehicule() {
+        registreVehicule.retirerVehiculeEndommage();
+    }
+
+    private void saisirNouveauVehicule() {
+        registreVehicule.ajouterVehicule();
     }
 
     private void menuClient() {
@@ -77,8 +154,6 @@ public class Menu implements IMenu {
     }
 
     private void getMenuClient() {
-        Scanner scanner = new Scanner(System.in);
-        String choice;
         do {
             menuClient();
             System.out.print("Entrez votre choix: ");
@@ -111,14 +186,12 @@ public class Menu implements IMenu {
         System.out.println("6. Afficher la liste des réservations");
         System.out.println("7. Afficher la liste des locations");
         System.out.println("8. Afficher la listes des clients");
+        System.out.println("9. Créer un nouveau Retour Vehicule");
         System.out.println("0. Quitter");
         System.out.println("================================");
     }
 
     private void getChoicePrepose(){
-        // afficher le menu Propose
-        Scanner scanner = new Scanner(System.in);
-        String choice;
         do {
             menuPrepose();
             System.out.print("Entrez votre choix: ");
@@ -180,6 +253,13 @@ public class Menu implements IMenu {
                     System.out.println("======================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
                     stockagePersistant.afficherClient();
                     System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "======================================" + ConsoleColors.RESET);
+                    break;
+                case "9":
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==========================================");
+                    System.out.println("========= CRÉER RETOUR VEHICULE ==========");
+                    System.out.println("==========================================" + ConsoleColors.WHITE_BOLD_BRIGHT);
+                    registreVehicule.creerNouveauRetour();
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "==========================================" + ConsoleColors.RESET);
                     break;
                 case "0":
                     return;

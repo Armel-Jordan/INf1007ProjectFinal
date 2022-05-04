@@ -1,6 +1,7 @@
 package agence.storage;
 
 import agence.models.Client;
+import agence.models.ModelVehicule;
 import agence.models.TypeVehicule;
 import agence.models.Vehicule;
 import agence.request.Location;
@@ -9,9 +10,7 @@ import agence.request.Reservation;
 import agence.request.RetourVehicule;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StockagePersistant implements StockageRepository {
@@ -28,6 +27,7 @@ public class StockagePersistant implements StockageRepository {
     public static Map<String, Reservation> catalogueVehiculeRetourne;
     public static Map<String, Vehicule> catalogueVehiculeRepare;
     public static Map<String, Vehicule> catalogueVehiculeRetire;
+    public static Set<TypeVehicule> typesVehicule;
     private static StockagePersistant instance;
 
     public static StockagePersistant getInstance() {
@@ -39,17 +39,48 @@ public class StockagePersistant implements StockageRepository {
     }
 
     public StockagePersistant() {
-
-        this.catalogueReservationEnCours = new HashMap<>();
-        this.cataloguePaiement = new HashMap<>();
-        this.catalogueClient = new HashMap<>();
-        this.catalogueVehicule = new HashMap<>();
-        this.catalogueLocation = new HashMap<>();
-        this.catalogueReservation = new HashMap<>();
-        this.catalogueClientRetardataire = new HashMap<>();
-        this.catalogueVehiculeDisponible = new HashMap<>();
-        this.catalogueRetour = new HashMap<>();
+        catalogueReservationEnCours = new HashMap<>();
+        cataloguePaiement = new HashMap<>();
+        catalogueClient = new HashMap<>();
+        catalogueVehicule = new HashMap<>();
+        catalogueLocation = new HashMap<>();
+        catalogueReservation = new HashMap<>();
+        catalogueClientRetardataire = new HashMap<>();
+        catalogueVehiculeDisponible = new HashMap<>();
+        catalogueRetour = new HashMap<>();
+        catalogueVehiculeRetourne = new HashMap<>();
+        catalogueVehiculeRepare = new HashMap<>();
+        catalogueVehiculeRetire = new HashMap<>();
+        typesVehicule = initTypesVehicule();
         initVehicule();
+    }
+
+    private HashSet<TypeVehicule> initTypesVehicule() {
+        HashSet<TypeVehicule> typesVehicule = new HashSet<>();
+        typesVehicule.add(new TypeVehicule("Simple"));
+        typesVehicule.add(new TypeVehicule("Prestige"));
+        typesVehicule.add(new TypeVehicule(("Camion")));
+        return typesVehicule;
+    }
+
+    @Override
+    public void ajoutTypeVehicule(TypeVehicule type) {
+        typesVehicule.add(type);
+    }
+
+    @Override
+    public List<TypeVehicule> getAllTypeVehicule() {
+        return new ArrayList<>(typesVehicule);
+    }
+
+    @Override
+    public Map<String, Vehicule> getCatalogueVehiculeRetires() {
+        return catalogueVehiculeRetire;
+    }
+
+    @Override
+    public Map<String, Vehicule> getCatalogueVehiculeRepare() {
+        return catalogueVehiculeRepare;
     }
 
     @Override
@@ -70,6 +101,21 @@ public class StockagePersistant implements StockageRepository {
     @Override
     public Map<String, Vehicule> getCatalogueVehicule() {
         return catalogueVehicule;
+    }
+
+    @Override
+    public Map<String, Vehicule> getVehiculeRetourne() {
+        return catalogueRetour
+                .values()
+                .stream()
+                .map(RetourVehicule::getLocation)
+                .map(Location::getVehicule)
+                .collect(Collectors.toMap(Vehicule::getImmatriculation, v -> v));
+    }
+
+//    @Override
+    public Map<String, RetourVehicule> getVehiculeRetournes() {
+        return catalogueRetour;
     }
 
     @Override
@@ -107,7 +153,7 @@ public class StockagePersistant implements StockageRepository {
                 .values()
                 .stream()
                 .noneMatch(r -> r.getVehicule().getImmatriculation().equals(immatriculation)
-                        && (r.getDate().isBefore(date) || r.getDate().isEqual(date)));
+                        && (r.getDate().isBefore(date)));
     }
 
     @Override
@@ -167,16 +213,6 @@ public class StockagePersistant implements StockageRepository {
     }
 
     @Override
-    public Map<String, Vehicule> getVehiculeRetourne() {
-        return catalogueRetour
-                .values()
-                .stream()
-                .map(RetourVehicule::getLocation)
-                .map(Location::getVehicule)
-                .collect(Collectors.toMap(Vehicule::getImmatriculation, v -> v));
-    }
-
-    @Override
     public void afficherReservation() {
         catalogueReservation.values().forEach(System.out::println);
     }
@@ -188,10 +224,8 @@ public class StockagePersistant implements StockageRepository {
 
     @Override
     public void afficherClient() {
-        if (catalogueClient.isEmpty()) {
-            System.out.println("Aucun client n'est enregistré");
+        if (catalogueClient.isEmpty())
             return;
-        }
 
         catalogueClient.values().forEach(System.out::println);
     }
@@ -205,9 +239,12 @@ public class StockagePersistant implements StockageRepository {
     public void setCatalogueReservation(Map<String, Reservation> catalogueReservation) {
         StockagePersistant.catalogueReservation = catalogueReservation;
     }
+
     private void initVehicule() {
-        Vehicule vehicule1 =new Vehicule("ABC", "Peugeot", TypeVehicule.SIMPLE, 100);
-        Vehicule vehicule2 =new Vehicule("AB", "Peugeot", TypeVehicule.SIMPLE, 10);
+        Vehicule vehicule1 =new Vehicule("IMM1", "Noir", new ArrayList<>(typesVehicule).get(0), 100);
+        vehicule1.setModele(new ModelVehicule("Audi", 4));
+        Vehicule vehicule2 =new Vehicule("IMM2", "Bleu", new ArrayList<>(typesVehicule).get(0), 120);
+        vehicule2.setModele(new ModelVehicule("Renault", 4));
         catalogueVehicule.put(vehicule1.getImmatriculation(), vehicule1);
         catalogueVehicule.put(vehicule2.getImmatriculation(), vehicule2);
     }

@@ -5,6 +5,7 @@ import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.Paiement;
 import agence.storage.StockagePersistant;
+import agence.tools.ConsoleColors;
 import agence.views.ILocationView;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class LocationView implements ILocationView {
 
-    private StockagePersistant stockage= StockagePersistant.getInstance();
+    private final StockagePersistant stockage= StockagePersistant.getInstance();
     private final Scanner scanner = new Scanner(System.in);
 
 
@@ -87,24 +88,28 @@ public class LocationView implements ILocationView {
 
     @Override
     public void afficherListVehicules() {
-        System.out.println("=================== Liste des vehicules =================");
-        listVehicules().forEach(v -> System.out.println(v.getImmatriculation() + " | "
-                + v.getModele() + " | " + v.getCouleur() + " | " + v.getPrixVehicule() + " CAD"));
-    }
-
-    private List<Vehicule> listVehicules(){
-        return new ArrayList<>(stockage.getCatalogueVehicule().values());
+        System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==============================================");
+        System.out.println("============= LISTE DES VEHICULES ============");
+        System.out.println("==============================================" + ConsoleColors.WHITE_BOLD_BRIGHT );
+        stockage.getCatalogueVehicule().values().forEach(System.out::println);
     }
 
     @Override
     public void procederPaiement(Location location) {
 
-        System.out.println("Entrez le numero de le montant du paiement");
-        double montant = scanner.nextDouble();
-        Paiement paiement = new Paiement(montant);
+        String montant;
+        do{
+            System.out.println("Entrez le montant du paiement");
+            montant = scanner.nextLine();
+
+        } while(!montant.matches("^[0-9]+"));
+
+        Paiement paiement = new Paiement(Double.parseDouble(montant));
 
         stockage.ajouterPaiement(paiement);
 
         System.out.println("Le paiement a ete ajoute avec succes");
+        System.out.println("Votre location a été enregistrée avec succes, " +
+                "\nvoici l'ID de votre location: " + ConsoleColors.GREEN_BOLD_BRIGHT + location.getIdLocation() + ConsoleColors.RESET);
     }
 }

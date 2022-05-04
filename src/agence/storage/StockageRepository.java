@@ -1,12 +1,14 @@
 package agence.storage;
 
 import agence.models.Client;
+import agence.models.TypeVehicule;
 import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.Paiement;
 import agence.request.Reservation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,4 +40,8 @@ public interface StockageRepository {
     void afficherLocation();
     void afficherClient();
     Map<String, Vehicule> getCatalogueVehicule();
+    void ajoutTypeVehicule(TypeVehicule typeVehicule);
+    List<TypeVehicule> getAllTypeVehicule();
+    Map<String, Vehicule> getCatalogueVehiculeRetires();
+    Map<String, Vehicule> getCatalogueVehiculeRepare();
 }

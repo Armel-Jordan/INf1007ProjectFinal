@@ -5,14 +5,17 @@ import agence.request.Location;
 import agence.request.RetourVehicule;
 import agence.storage.StockagePersistant;
 import agence.views.IRetourVehiculeView;
+import agence.views.IVehiculeView;
 import agence.views.impl.RetourVehiculeView;
+import agence.views.impl.VehiculeView;
 
 import java.util.List;
 
 public class RegistreVehicule {
 
     private final StockagePersistant stockage = StockagePersistant.getInstance();
-    private final IRetourVehiculeView views = new RetourVehiculeView();
+    private final IRetourVehiculeView retourVehiculeView = new RetourVehiculeView();
+    private final IVehiculeView vehiculeView = new VehiculeView();
     private final RegistreLocation registreLocation = new RegistreLocation();
 
     public void creerNouveauRetour() {
@@ -20,14 +23,14 @@ public class RegistreVehicule {
         RetourVehicule retourVehicule = new RetourVehicule(location);
 
         // demande d'id de location
-        String idLocation = views.demanderIdLocation();
+        String idLocation = retourVehiculeView.demanderIdLocation();
 
         // charger la location
         location = registreLocation.chargerLocation(idLocation);
 
         // verifier si la location existe
         if(location == null) {
-            views.erreurVehicule();
+            retourVehiculeView.erreurVehicule();
             return;
         }
 
@@ -43,28 +46,35 @@ public class RegistreVehicule {
         double fraisRetour = retourVehicule.getFraisRetour();
 
         if(fraisRetour < 0){
-            views.afficherAmende(Math.abs(fraisRetour));
+            retourVehiculeView.afficherAmende(Math.abs(fraisRetour));
         }
         else {
-            views.afficherPrixRetour(fraisRetour);
+            retourVehiculeView.afficherPrixRetour(fraisRetour);
         }
 
         // terminer la location
-        registreLocation.terminerLocation(location);
-        views.signalerFinRetourVehicule();
+        terminerRetourVehicule(retourVehicule);
+        retourVehiculeView.signalerFinRetourVehicule();
+    }
+
+    private void terminerRetourVehicule(RetourVehicule retourVehicule) {
+        stockage.getVehiculeRetournes().put(retourVehicule.getLocation().getVehicule().getImmatriculation(), retourVehicule);
+        retourVehicule.getLocation().setEstEnCours(false);
     }
 
 
     public void retirerVehiculeEndommage(){
-       String immatricule = views.demanderImmatriculeEndommage();
+       String immatricule = retourVehiculeView.demanderImmatriculeEndommage();
 
        // verifier si le vehicule existe dans la liste des vehicules retournés
-       if(!stockage.getVehiculeRetourne().containsKey(immatricule))
-           throw new IllegalStateException("Le vehicule n'existe pas dans la liste des vehicules retournés");
+       if(!stockage.getVehiculeRetourne().containsKey(immatricule)){
+           vehiculeView.erreurVehicule();
+           return;
+       }
 
        Vehicule vehicule = stockage.getVehiculeRetourne().get(immatricule);
 
-       views.demanderDestinationFinale(vehicule);
+       retourVehiculeView.demanderDestinationFinale(vehicule);
     }
     private void verifierEtatVehicule(Vehicule vehicule){
 
@@ -82,4 +92,13 @@ public class RegistreVehicule {
             stockage.addVehiculeDisponible(vehicule);
         }
     }
-}
+
+    //Ajouter vehicule
+    public void ajouterVehicule(){
+     Vehicule vehicule = new Vehicule();
+     vehiculeView.ajouterInfoVehicule(vehicule);
+     stockage.ajouterVehicule(vehicule);
+    }
+
+
+ }

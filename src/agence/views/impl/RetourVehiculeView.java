@@ -2,6 +2,7 @@ package agence.views.impl;
 
 import agence.models.Vehicule;
 import agence.storage.StockagePersistant;
+import agence.tools.ConsoleColors;
 import agence.views.IRetourVehiculeView;
 
 import java.util.Scanner;
@@ -46,30 +47,40 @@ public class RetourVehiculeView implements IRetourVehiculeView {
     public void demanderDestinationFinale(Vehicule vehicule) {
         // créer un switch
         do {
-            System.out.println("Entrer :\n");
+            System.out.println("Choisir la destination finale du vehicule : ");
             System.out.println("\t1- pour ajouter le vehicule à la liste des vehicules à Réparer");
             System.out.println("\t2- pour ajouter le vehicule à la liste des vehicules à supprimer");
-            System.out.println("\t3- pour Retourner");
-            int choix = scanner.nextInt();
+            System.out.println("\t0- pour Retourner");
+            System.out.print("Entrer : ");
+            String choix = scanner.nextLine();
             switch (choix) {
-                case 1:
+                case "1":
                     StockagePersistant.catalogueVehiculeRepare.put(vehicule.getImmatriculation(), vehicule);
-                    System.out.println("Le vehicule a été ajouté dans la liste des vehicules à réparer");
-                    break;
-                case 2:
+                    StockagePersistant.catalogueVehiculeRetourne.remove(vehicule.getImmatriculation());
+                    StockagePersistant.catalogueVehicule.remove(vehicule.getImmatriculation());
+                    System.out.println("===============================================================");
+                    System.out.println(ConsoleColors.GREEN_BOLD + "Le vehicule a été ajouté dans la liste des vehicules à réparer" + ConsoleColors.RESET);
+                    System.out.println("===============================================================");
+                    return;
+                case "2":
                     StockagePersistant.catalogueVehiculeRetire.put(vehicule.getImmatriculation(), vehicule);
-                    System.out.println("Le vehicule a été ajouté dans la liste des vehicules à retirer");
-                    break;
-                case 3:
-                    break;
+                    StockagePersistant.catalogueVehiculeRetourne.remove(vehicule.getImmatriculation());
+                    StockagePersistant.catalogueVehicule.remove(vehicule.getImmatriculation());
+                    System.out.println("===============================================================");
+                    System.out.println(ConsoleColors.GREEN_BOLD + "Le vehicule a été ajouté dans la liste des vehicules à retirer" + ConsoleColors.RESET);
+                    System.out.println("===============================================================");
+                    return;
+                case "0":
+                    return;
                 default:
                     System.out.println("Choix invalide !\n");
+                    break;
             }
         } while (true);
     }
 
     @Override
     public void erreurVehicule() {
-        System.err.println("Le vehicule n'existe pas");
+        System.err.println("La location avec cet id n'existe pas");
     }
 }
