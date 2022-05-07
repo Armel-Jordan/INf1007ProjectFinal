@@ -1,6 +1,7 @@
 package agence.views.impl;
 
 import agence.models.Client;
+import agence.models.Facture;
 import agence.models.Vehicule;
 import agence.request.Location;
 import agence.request.Paiement;
@@ -27,7 +28,7 @@ public class LocationView implements ILocationView {
     @Override
     public Location saisirInfomationLocation(Location location) {
         // demander les informations du client
-        System.out.println("Entrez le numero du permis de conduire du client");
+        System.out.println("Entrez le numero du permis de conduire du client (exemple : UQTR-1 ou UQTR-2)");
         String numeroPermis = scanner.nextLine();
 
         // get client by numero permis
@@ -61,9 +62,12 @@ public class LocationView implements ILocationView {
             return null;
         }
 
-        // demander la date de Fin de location
-        System.out.println("Entrez la date de fin de location (format: dd/mm/yyyy)");
-        String dateFin = scanner.nextLine();
+        String dateFin;
+        do {
+            // demander la date de Fin de location
+            System.out.println("Entrez la date de fin de location (format: dd/mm/yyyy)");
+            dateFin = scanner.nextLine();
+        } while (!isDateValid(dateFin));
         // convertir la date de fin en un objet LocalDateTime
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime dateFinLocalDateTime = LocalDate.parse(dateFin, formatter).atStartOfDay();
@@ -76,9 +80,20 @@ public class LocationView implements ILocationView {
         return location;
     }
 
+    private boolean isDateValid(String dateFin) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime dateFinLocalDateTime = LocalDate.parse(dateFin, formatter).atStartOfDay();
+        // avant la date d'hier
+        if (dateFinLocalDateTime.isBefore(LocalDateTime.now().minusDays(1))) {
+            System.err.println("La date de fin de location ne doit pas être inférieure à la date d'aujourd'hui");
+            return false;
+        }
+        return true;
+    }
+
     private String obtenirMatriculationChoisies() {
         afficherListVehicules();
-        System.out.println("Entrez l'immatriculation du vehicule que vous souhaitez louer");
+        System.out.println("Entrez l'immatriculation du vehicule que vous souhaitez louer (exemple : IMM1 ou IMM2)");
 
         return scanner.nextLine();
     }
@@ -96,7 +111,7 @@ public class LocationView implements ILocationView {
 
         String montant;
         do{
-            System.out.println("Entrez le montant du paiement");
+            System.out.println("Entrez le montant du paiement (Garantie : 200$)");
             montant = scanner.nextLine();
 
         } while(!montant.matches("^[0-9]+"));
@@ -105,8 +120,18 @@ public class LocationView implements ILocationView {
 
         stockage.ajouterPaiement(paiement);
 
+        // create Facture
+        Facture facture = new Facture(location.getIdLocation(), location.getClient().getIdClient(), paiement.getMontant());
+
         System.out.println("Le paiement a ete ajoute avec succes");
-        System.out.println("Votre location a été enregistrée avec succes, " +
+
+        // impression de la facture
+        System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n==============================================");
+        System.out.println("================== FACTURE ===================");
+        System.out.println(facture.impression());
+        System.out.println("==============================================" + ConsoleColors.WHITE_BOLD_BRIGHT );
+
+        System.out.println("\nVotre location a été enregistrée avec succes, " +
                 "\nvoici l'ID de votre location: " + ConsoleColors.GREEN_BOLD_BRIGHT + location.getIdLocation() + ConsoleColors.RESET);
     }
 }

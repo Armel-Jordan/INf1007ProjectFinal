@@ -1,15 +1,16 @@
 package agence.models;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Facture {
 
     private String id;
-    private int montantTotal;
+    private double montantTotal;
     private String idLocation;
     private String idClient;
 
-    public Facture(String idLocation, String idClient ,int montantTotal) {
+    public Facture(String idLocation, String idClient, double montantTotal) {
         this.id = UUID.randomUUID().toString();
         this.idLocation = idLocation;
         this.idClient = idClient;
@@ -24,11 +25,11 @@ public class Facture {
         this.id = id;
     }
 
-    public int getMontantTotal() {
+    public double getMontantTotal() {
         return montantTotal;
     }
 
-    public void setMontantTotal(int montantTotal) {
+    public void setMontantTotal(double montantTotal) {
         this.montantTotal = montantTotal;
     }
 
@@ -53,5 +54,13 @@ public class Facture {
 
     public void setIdClient(String idClient) {
         this.idClient = idClient;
+    }
+
+    public String impression() {
+        return "Facture : " + id + "\n" +
+                "Montant total : " + montantTotal + "\n" +
+                "Location : " + idLocation + "\n" +
+                "Client : " + idClient + "\n"+
+                "date : " + LocalDate.now();
     }
 }
